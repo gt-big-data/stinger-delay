@@ -1,0 +1,48 @@
+.element-top-label {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  width: 400px;
+}
+
+.element-top-label .text-wrapper {
+  align-self: stretch;
+  color: var(--subtle-2);
+  font-family: var(--label-medium-font-family);
+  font-size: var(--label-medium-font-size);
+  font-style: var(--label-medium-font-style);
+  font-weight: var(--label-medium-font-weight);
+  letter-spacing: var(--label-medium-letter-spacing);
+  line-height: var(--label-medium-line-height);
+  margin-top: -1px;
+  position: relative;
+}
+
+.element-top-label .frame {
+  align-items: flex-start;
+  align-self: stretch;
+  border: 1px solid;
+  border-color: var(--subtle-2);
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  padding: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.element-top-label .div {
+  color: var(--subtle-1);
+  flex: 1;
+  font-family: var(--body-large-font-family);
+  font-size: var(--body-large-font-size);
+  font-style: var(--body-large-font-style);
+  font-weight: var(--body-large-font-weight);
+  letter-spacing: var(--body-large-letter-spacing);
+  line-height: var(--body-large-line-height);
+  margin-top: -1px;
+  position: relative;
+}
