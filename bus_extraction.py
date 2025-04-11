@@ -15,10 +15,10 @@ else:
     ssl._create_default_https_context = _create_unverified_https_context
 
 #postgresql connection
-db_host = #"enter db host"
-db_name = #"enter db name"
-db_user = #"enter db username"
-db_pass = #"enter db password"
+db_host = #'enter db host here'
+db_name = #'enter db name here'
+db_user = #'enter user here'
+db_pass = #'enter password here'
 conn = psycopg2.connect(
     host=db_host,
     database=db_name,
@@ -26,6 +26,22 @@ conn = psycopg2.connect(
     password=db_pass
 )
 cur = conn.cursor()
+
+create_table_query = '''
+CREATE TABLE IF NOT EXISTS bus_data (
+    Latitude FLOAT,
+    Longitude FLOAT,
+    Weather TEXT,
+    Day_Of_Week TEXT,
+    Month TEXT,
+    Time_Of_Day TEXT,
+    Bus_Line TEXT,
+    Traffic_Patterns TEXT,
+    Bus_Speed FLOAT
+);
+'''
+cur.execute(create_table_query)
+conn.commit()
 
 eastern = pytz.timezone('America/New_York')
 
