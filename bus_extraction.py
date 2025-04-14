@@ -5,6 +5,8 @@ import pytz
 from datetime import datetime, timedelta
 import re
 import psycopg2
+from traffic_api import get_traffic_level
+
 
 # Create an unverified SSL context to bypass SSL certificate errors
 try:
