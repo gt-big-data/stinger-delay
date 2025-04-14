@@ -1,6 +1,14 @@
+:root {
+  --primary-color: #003057;
+  --secondary-color: #b3a369;
+  --text-color: #ffffff;
+  --subtle-light: rgba(175, 177, 182, 1);
+  --white: rgba(255, 255, 255, 1);
+}
+
 .page {
-  background-color: #003057;
-  color: #ffffff;
+  background-color: var(--primary-color);
+  color: var(--text-color);
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
@@ -17,6 +25,17 @@
   line-height: normal;
   margin-top: 20px;
   margin-left: 20px;
+}
+
+.delay-text {
+  color: #b3a369;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: normal;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .title-container {
@@ -38,6 +57,14 @@
   width: 837px;
 }
 
+.dropdown-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 auto;
+  width: 250px;
+}
+
 .dropdown-label {
   color: #b3a369;
   font-family: "Inter-Bold", Helvetica;
@@ -45,24 +72,33 @@
   font-weight: 600;
   line-height: normal;
   text-align: left;
+  margin-bottom: 4px;
 }
 
 .dropdown-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  align-self: stretch;
+  flex: 0 0 auto;
   margin: 0 auto;
-  width: 200px;
+  width: 250px;
   margin-bottom: 20px;
+  border-radius: 8px;
+  border-color: var(--subtle-light);
+  overflow: hidden;
+  border: 1px solid;
+  background-color: var(--white);
+  gap: 16px;
+  padding: 3px;
 }
 
 .map-placeholder {
-  width: 300px;
-  height: 200px;
-  background-color: #ddd;
+  width: 100%;
+  height: auto;
+  background-color: black;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ccc;
 }
