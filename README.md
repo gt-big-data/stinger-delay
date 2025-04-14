@@ -43,5 +43,5 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Integrate the backend with the other two subteams
 
 **Members:**
-- Hieu Nguyen
+- Hieu Nguyen https://www.linkedin.com/in/hieu-nguyen-px27/
 - Sahil Hora
