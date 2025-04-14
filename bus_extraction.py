@@ -5,6 +5,7 @@ import pytz
 from datetime import datetime, timedelta
 import re
 import psycopg2
+import random
 from traffic_api import get_traffic_level
 
 
@@ -76,6 +77,45 @@ data = res.read()
 
 vehicles = json.loads(data.decode("utf-8"))
 
+# sample stops for Gold route
+stops_dict = {
+    "Marta": (33.78124531457225, -84.38609515855521),
+    "Technology square": (33.77693168042234, -84.38985431852313),
+    "5th Street WB": (33.77696524446127, -84.39177713175643),
+    "Russ Chandler Stadium": (33.77700226733594, -84.39405232716865),
+    "Klaus Building WB": (33.77750297477602, -84.3955435318594),
+    "Nanotechnology": (33.778361110340406, -84.39806140119877),
+    "Kendeda Building": (33.7784220826717, -84.39957983900081),
+    "Couch Park": (33.77804350814352, -84.4020813989256),
+    "CRC & Stamps Health": (33.7750633043881, -84.40272409315902),
+    "Ferst Drive & Campus Center": (33.7733218207678, -84.39921557992542),
+    "Transit Hub": (33.77314438101725, -84.39700294107278),
+    "Campus Center": (33.77347874294925, -84.3991488920771),
+    "Exhibition Hall": (33.77508233091718, -84.40238068190583),
+    "Ferst Dr & Hemphill Ave": (33.778433040576374, -84.40085640923526),
+    "Cherry Emerson": (33.77822274400314, -84.3973364838895),
+    "Klaus Building EB": (33.77715065747476, -84.39554176833916),
+    "Ferst Dr & Fowler St": (33.776870955985096, -84.39380500062757),
+    "5th Street Bridge EB": (33.7768316079988, -84.39190623554501),
+    "Technology Square EB": (33.77679019002961, -84.38972625670338),
+    "College of Business": (33.77675787854372, -84.38777167574695),
+    "Academy of Medicine": (33.77848885105469, -84.38719153190587)
+}
+
+# random origin stop choice
+origin_stop = random.choice(list(stops_dict.keys()))
+# its coordinates
+origin_coords = stops_dict[origin_stop]
+#print(origin_stop)
+
+# random destination stop choice
+destination_stop = random.choice(list(stops_dict.keys()))
+# its coordinates 
+destination_coords = stops_dict[destination_stop]
+#print(destination_stop)
+
+#print(get_traffic_level(origin_coords, destination_coords))
+
 bus_data = []
 "RouteID"
 for vehicle in vehicles:
@@ -110,7 +150,7 @@ for vehicle in vehicles:
             "Month": month,
             "Time_Of_Day": time,
             "Bus_Line": vehicle["RouteID"],
-            "Traffic_Patterns": "N/A",
+            "Traffic_Patterns": get_traffic_level(origin_coords, destination_coords),
             "Bus_Speed": vehicle["GroundSpeed"]
             })
 
