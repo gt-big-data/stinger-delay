@@ -13,6 +13,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 ### Platform
 
 **Goal:** Automate the data pipeline for collecting, processing, and storing GPS and transit data.
+
 **Responsibilities:** 
 - Scrape real-time GPS data
 - Clean and process collected data
