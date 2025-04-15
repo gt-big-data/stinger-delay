@@ -21,7 +21,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 
 **Members:**
 - Roy Chung https://www.linkedin.com/in/royschung/
-- Diana Garcia Perales
+- Diana Garcia Perales https://www.linkedin.com/in/diana-garcia-perales-gatech/
 - Savvy Dusad
 - Jevon Isaac Twitty
 
