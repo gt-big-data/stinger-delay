@@ -24,6 +24,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Diana Garcia Perales https://www.linkedin.com/in/diana-garcia-perales-gatech/
 - Savvy Dusad
 - Jevon Isaac Twitty
+- Tracy Phan https://www.linkedin.com/in/tracy-phan1
 
 ### Analysis
 
