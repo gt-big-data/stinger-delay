@@ -25,6 +25,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Savvy Dusad
 - Jevon Isaac Twitty
 - Tracy Phan https://www.linkedin.com/in/tracy-phan1
+- Luke Felty https://www.linkedin.com/in/luke-felty-bbb92037a
 
 ### Analysis
 
