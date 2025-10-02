@@ -5,6 +5,8 @@ import pytz
 from datetime import datetime, timedelta
 import re
 import psycopg2
+from dotenv import load_dotenv
+import os
 
 # Create an unverified SSL context to bypass SSL certificate errors
 try:
@@ -15,10 +17,10 @@ else:
     ssl._create_default_https_context = _create_unverified_https_context
 
 #postgresql connection
-db_host = #'enter db host here'
-db_name = #'enter db name here'
-db_user = #'enter user here'
-db_pass = #'enter password here'
+db_host = os.getenv('DB_HOST')
+db_name = os.getenv('DB_NAME')
+db_user = os.getenv('DB_USER')
+db_pass = os.getenv('DB_PASS')
 conn = psycopg2.connect(
     host=db_host,
     database=db_name,
@@ -65,7 +67,7 @@ headers = {
     'sec-ch-ua-platform': '"macOS"'
     }
 
-conn_http.request("GET", "/Services/JSONPRelay.svc/GetMapVehiclePoints?apiKey=8882812681&isPublicMap=true", payload, headers)
+conn_http.request("GET", f"/Services/JSONPRelay.svc/GetMapVehiclePoints?apiKey={os.getenv('API_KEY')}&isPublicMap=true", payload, headers)
 
 res = conn_http.getresponse()
 
