@@ -1,0 +1,21 @@
+[
+  {
+    "id": "1",
+    "name": "Gold Route",
+    "stops": ["Tech Square WB", "5th Street Bridge WB", "Klaus Building EB"]
+  },
+  {
+    "id": "2",
+    "name": "Blue Route",
+    "stops": [
+      "CRC & Stamps Health",
+      "Student Center",
+      "Ferst Drive & Cherry St"
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Green Route",
+    "stops": ["kendeda Building", "14th St & State St", "Baker Building"]
+  }
+]

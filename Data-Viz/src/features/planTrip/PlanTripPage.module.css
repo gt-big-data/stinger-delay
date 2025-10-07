@@ -1,0 +1,24 @@
+.links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.linkButton {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: "Inter-SemiBold", Helvetica, sans-serif;
+  border: none;
+  cursor: pointer;
+}
+
+.linkButton:hover {
+  background-color: var(--white);
+  color: var(--primary-color);
+}
