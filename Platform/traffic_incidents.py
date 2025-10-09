@@ -14,7 +14,7 @@ headers = {
 }
 
 bbox = "33.7751983926161,33.7751983926161,33.77642014048971,33.77642014048971"
-apikey = "vdxeYiTC7ogj3t6vvcYSbAYNSoSqdQjR"
+apikey = os.getenv('TRAFFIC_API_KEY')
 
 # api.tomtom.com/traffic/services/{versionNumber}/incidentDetails?key={Your_Api_Key}&fields={fields}&language={language}&t={t}&categoryFilter={categoryFilter}&timeValidityFilter={timeValidityFilter}
 fields = "{incidents{type,geometry{type,coordinates},properties{iconCategory}}}"
