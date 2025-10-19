@@ -34,6 +34,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 **Responsibilities:** 
 
 **Members:**
+- Jay Imperatori https://www.linkedin.com/in/jay-imperatori/ 
 
 ### Data-Viz
 
