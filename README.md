@@ -26,6 +26,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Jevon Isaac Twitty
 - Tracy Phan https://www.linkedin.com/in/tracy-phan1
 - Luke Felty https://www.linkedin.com/in/luke-felty-bbb92037a
+- Arpit Kesharwani https://www.linkedin.com/in/arpit-kesharwani-287808276/ 
 
 ### Analysis
 
