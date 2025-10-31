@@ -31,7 +31,7 @@ class TrafficExtractor(BaseExtractor):
             incidentPoints = incident["location"]["shape"]["links"]["points"]
             #encode incidentLinks points as polyline
             incidentPL = polyline.encode([(pt["latitude"], pt["longitude"]) for pt in incidentPoints])
-            details = incident["details"]
+            details = incident["incidentDetails"]
             type = details["type"]
             if (type == "congestion" and incident.get("parentID") is not None):
                 continue
