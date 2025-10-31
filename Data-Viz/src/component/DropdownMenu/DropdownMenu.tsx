@@ -1,61 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import styles from "./DropdownMenu.module.css";
 
-interface DropdownMenuProps {
-  options: string[];
-  onSelect: (option: string) => void;
+interface DropdownOption {
+  value: string;
+  label: string;
 }
 
-const DropdownStyle = {
-  dropdown: {
-    fontFamily: "Work Sans, Helvetica",
-    fontSize: "14px",
-    fontStyle: "normal",
-    fontWeight: 400,
-    letterSpacing: "0.08px",
-    lineHeight: "20px",
-  },
-  dropdownToggle: {
-    fontFamily: "Work Sans, Helvetica",
-    fontSize: "14px",
-    fontStyle: "normal",
-    fontWeight: 500,
-    letterSpacing: "0.4px",
-    lineHeight: "20px",
-    color: "rgba(97, 100, 107, 1)",
-  },
-  dropdownMenu: {
-    backgroundColor: "rgba(255, 255, 255, 1)",
-    color: "rgba(175, 177, 182, 1)",
-  },
-};
+interface DropdownMenuProps {
+  options: DropdownOption[];
+  onSelect: (option: DropdownOption) => void;
+  placeholder?: string;
+  selectedValue?: string;
+}
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({ options, onSelect }) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({
+  options,
+  onSelect,
+  placeholder = "Select an option",
+  selectedValue,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  const handleSelect = (option: string) => {
-    setSelectedOption(option);
+  const handleSelect = (option: DropdownOption) => {
     onSelect(option);
     setIsOpen(false);
   };
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const selectedOption = options.find((opt) => opt.value === selectedValue);
+
   return (
-    <div style={DropdownStyle.dropdown}>
+    <div className={styles.dropdown} ref={ref}>
       <div
-        style={DropdownStyle.dropdownToggle}
-        onClick={() => setIsOpen(!isOpen)}
+        className={styles.toggle}
+        onClick={() => setIsOpen((prev) => !prev)}
+        role="button"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
       >
-        {selectedOption || "Select an option"}
+        {selectedOption ? selectedOption.label : placeholder}
       </div>
+
       {isOpen && (
-        <div style={DropdownStyle.dropdownMenu}>
+        <div className={styles.menu} role="listbox">
           {options.map((option) => (
             <div
-              key={option}
+              key={option.value}
+              className={styles.option}
+              role="option"
               onClick={() => handleSelect(option)}
-              style={{ padding: "8px", cursor: "pointer" }}
             >
-              {option}
+              {option.label}
             </div>
           ))}
         </div>
@@ -63,3 +71,5 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ options, onSelect }) => {
     </div>
   );
 };
+
+export default DropdownMenu;

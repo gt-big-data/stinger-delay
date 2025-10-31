@@ -1,24 +1,78 @@
-.links {
+.container {
   display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  /* padding: 1rem; */
+  font-family: "Inter", Helvetica, sans-serif;
+  position: absolute;
+  width: 100%;
 }
 
-.linkButton {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-  font-weight: 600;
-  text-decoration: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  font-family: "Inter-SemiBold", Helvetica, sans-serif;
-  border: none;
-  cursor: pointer;
+.header {
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
-.linkButton:hover {
+.mapFullWrapper {
+  position: absolute;
+  flex: 1;
+  width: 100%;
+}
+
+.mapContainer {
+  width: 100%;
+  height: calc(100vh - 50px);
+}
+
+.sidebarOverlay {
+  position: absolute;
+  width: 300px;
+  max-height: calc(100vh - 2rem);
+  height: 100%;
   background-color: var(--white);
   color: var(--primary-color);
+  padding: 1rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hidden {
+  transform: translateX(-320px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.selectRoute {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--subtle-light);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.collapseToggleAlways {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  background: var(--secondary-color);
+  color: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 20%;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.infoPanel {
+  margin-top: 1rem;
+  background-color: var(--white);
+  color: var(--primary-color);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
