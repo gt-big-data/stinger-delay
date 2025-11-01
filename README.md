@@ -35,7 +35,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 **Responsibilities:** 
 
 **Members:**
-
+- Aadil Khond https://www.linkedin.com/in/aadilkhond/
 ### Data-Viz
 
 **Goal:** Build an interactive frontend that displays delay predictions to users in a clear and intuitive way.
