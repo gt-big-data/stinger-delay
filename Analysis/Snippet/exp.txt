@@ -1,0 +1,7 @@
+GRU sensor0 -- 0.308054
+BiLSTM sensor0 -- 0.288320
+
+
+BiLSTM sensor100 -- 0.467340
+
+
