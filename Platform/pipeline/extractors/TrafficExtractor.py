@@ -6,54 +6,54 @@ import polyline
 # base_url = "https://data.traffic.hereapi.com"
 # api_key = HERE_API_KEY
 class TrafficExtractor(BaseExtractor):
-    def extract(self) -> pd.DataFrame:
-        headers = {
+
+    def __init__(self, base_url: str, api_key: str) -> None:
+        super().__init__(base_url)
+        self.circle_center = "33.784562,-84.394732"  # circle around campus encompassing all bus routes *except emory route
+        self.headers = {
             'Accept': "application/json, text/plain, */*",
             'Accept-Language': "en-US,en;q=0.9",
             'User-Agent': "StingerDelay/1.0 (contact: gtstingerdelay@gmail.com)",
         }
-
-        # circle around campus encompassing all bus routes *except emory route
-        circleCenter = "33.784562,-84.394732"
-
-        params = {
-            "in": f"circle:{circleCenter};r=1900",
+        self.params = {
+            "in": f"circle:{self.circle_center};r=1900",
             "locationReferencing": "shape",
             "apiKey": {self.api_key}
         }
 
-        response = self._get("v7/incidents/", headers=headers, params=params)
+    def extract(self) -> pd.DataFrame:
+        response = self._get("v7/incidents/", headers=self.headers, params=self.params)
         incidents: dict[str, dict] = response["results"]
         incidents_simplified: list[dict] = []
         for incident in incidents:
             # we're going to be primarily focused on whether or not there is an incident along our path rather than where exactly the incident is
             # documentation in api on what this int corresponds to
-            incidentPoints = incident["location"]["shape"]["links"]["points"]
+            incident_points = incident["location"]["shape"]["links"]["points"]
             #encode incidentLinks points as polyline
-            incidentPL = polyline.encode([(pt["latitude"], pt["longitude"]) for pt in incidentPoints])
+            incident_PL = polyline.encode([(pt["latitude"], pt["longitude"]) for pt in incident_points])
             details = incident["incidentDetails"]
             type = details["type"]
             if (type == "congestion" and incident.get("parentID") is not None):
                 continue
             if (type == "laneRestriction"):
-                vehicleRestrictions = details.get("vehicleRestrictions")
-                vehicleTypeRestriction = vehicleRestrictions.get("vehicleType")
-                if ("bus" not in vehicleTypeRestriction): #dont even add the incident; we shouldnt ever have incident type laneRestriction if it's not for buses
+                vehicle_restrictions = details.get("vehicleRestrictions")
+                vehicle_type_restriction = vehicle_restrictions.get("vehicleType")
+                if ("bus" not in vehicle_type_restriction): #dont even add the incident; we shouldnt ever have incident type laneRestriction if it's not for buses
                     continue
-            startTime = details.get("startTime") 
-            endTime = details.get("endTime")
-            isRoadClosed = details["roadClosed"]
-            if (isRoadClosed):
+            start_time = details.get("startTime") 
+            end_time = details.get("endTime")
+            is_road_closed = details["roadClosed"]
+            if (is_road_closed):
                 #this value can only exist if roadClosed is true; if not all the junctions are closed, just treat them like they're open even though there's more possibilities
                 if (details.get("junctionTraversability") != "allClosed"):
                     isJunctionsOpen = True
             comment = details.get("comment")
             incident_simplified = {
-                "polyline": incidentPL,
+                "polyline": incident_PL,
                 "type": type,
-                "is_road_closed": isRoadClosed,
-                "start_time": startTime,
-                "end_time": endTime,
+                "is_road_closed": is_road_closed,
+                "start_time": start_time,
+                "end_time": end_time,
                 "comment": comment
             }
             incidents_simplified.append(incident_simplified)
