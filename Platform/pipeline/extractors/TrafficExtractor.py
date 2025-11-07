@@ -1,4 +1,4 @@
-from BaseExtractor import ABCBaseExtractor as BaseExtractor
+from .BaseExtractor import ABCBaseExtractor as BaseExtractor
 import pandas as pd
 import polyline
 
@@ -8,7 +8,7 @@ import polyline
 class TrafficExtractor(BaseExtractor):
 
     def __init__(self, base_url: str, api_key: str) -> None:
-        super().__init__(base_url)
+        super().__init__(base_url, api_key)
         self.circle_center = "33.784562,-84.394732"  # circle around campus encompassing all bus routes *except emory route
         self.headers = {
             'Accept': "application/json, text/plain, */*",
@@ -22,15 +22,24 @@ class TrafficExtractor(BaseExtractor):
         }
 
     def extract(self) -> pd.DataFrame:
-        response = self._get("v7/incidents/", headers=self.headers, params=self.params)
+        response = self._get("v7/incidents", headers=self.headers, params=self.params)
+        if (response.get("error") is not None):
+            raise Exception(f"Error in TrafficExtractor extract(): {response['error']['message']}")
         incidents: dict[str, dict] = response["results"]
         incidents_simplified: list[dict] = []
         for incident in incidents:
             # we're going to be primarily focused on whether or not there is an incident along our path rather than where exactly the incident is
             # documentation in api on what this int corresponds to
-            incident_points = incident["location"]["shape"]["links"]["points"]
-            #encode incidentLinks points as polyline
-            incident_PL = polyline.encode([(pt["latitude"], pt["longitude"]) for pt in incident_points])
+            location = incident["location"]
+            shape = location["shape"]
+            links = shape["links"]
+            incident_polylines = []
+            for link in links:
+                incident_points = link["points"]
+                # encode incidentLinks points as polyline
+                incident_PL = polyline.encode([(pt["lat"], pt["lng"]) for pt in incident_points])
+                incident_polylines.append(incident_PL)
+            
             details = incident["incidentDetails"]
             type = details["type"]
             if (type == "congestion" and incident.get("parentID") is not None):
@@ -49,7 +58,7 @@ class TrafficExtractor(BaseExtractor):
                     isJunctionsOpen = True
             comment = details.get("comment")
             incident_simplified = {
-                "polyline": incident_PL,
+                "polylines": incident_polylines,
                 "type": type,
                 "is_road_closed": is_road_closed,
                 "start_time": start_time,
@@ -60,3 +69,5 @@ class TrafficExtractor(BaseExtractor):
 
         dataframe = pd.DataFrame.from_dict(incidents_simplified)
         return dataframe
+
+
