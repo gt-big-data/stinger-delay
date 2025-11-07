@@ -49,3 +49,4 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Hieu Nguyen https://www.linkedin.com/in/hieu-nguyen-px27/
 - Sahil Hora
 - Joshua Yi https://www.linkedin.com/in/jshuaoyi/
+- Arpit Kesharwani https://www.linkedin.com/in/arpit-kesharwani-287808276/ 
