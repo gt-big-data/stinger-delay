@@ -8,7 +8,7 @@ class ForwardPipeline:
     def __init__(self, cfg: Config):
         self.repo = DbRepository(cfg.pg_dsn)
         self.bus = BusExtractor(base_url=os.environ["BUS_API_URL"], api_key=cfg.bus_key)
-        self.weather = WeatherExtractor(base_url=os.environ["WEATHER_API_URL"], api_key=cfg.weather_key)
+        self.weather = WeatherExtractor(base_url=os.environ["WEATHER_API_URL"], api_key="", user_agent=cfg.weather_user_agent)
         self.traffic = TrafficExtractor(base_url=os.environ["TRAFFIC_API_URL"], api_key=cfg.traffic_key)
 
     def run_once(self, since: str | None = None):
