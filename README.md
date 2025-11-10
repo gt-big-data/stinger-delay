@@ -37,6 +37,8 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Jay Imperatori https://www.linkedin.com/in/jay-imperatori/ 
 
 - Aadil Khond https://www.linkedin.com/in/aadilkhond/
+- Eileen Shengaout https://www.linkedin.com/in/eileen-shengaout-128ab61bb/
+
 ### Data-Viz
 
 **Goal:** Build an interactive frontend that displays delay predictions to users in a clear and intuitive way.
