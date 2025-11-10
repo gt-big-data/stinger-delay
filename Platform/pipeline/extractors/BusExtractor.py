@@ -4,6 +4,18 @@ from datetime import datetime, timedelta
 import pytz
 import re
 
+"""
+Route Ids
+Red: 20
+Blue: 21
+Green: 17
+Emory: 18
+Gold: 29
+Clough: 28
+Night Gold/Clough: 30
+Northside Dr. - Atlantic Station: 26
+Nara/Science SQ: 22
+"""
 class BusExtractor(BaseExtractor):
     def get_bus_data(self):
         endpoint = "Services/JSONPRelay.svc/GetMapVehiclePoints"
@@ -43,6 +55,9 @@ class BusExtractor(BaseExtractor):
             bus_speed = vehicle["GroundSpeed"]
             
             stop_id, eta_to_stop = self.get_stop_info(bus_id)
+            #api call may return an eta where eta < t_o_d, in which we symbol with 0 to show bus already arrived or passed stop
+            if eta_to_stop < time_of_day:
+                eta_to_stop = 0
             
             bus_data.append({
                 "busid": bus_id,
@@ -66,7 +81,6 @@ class BusExtractor(BaseExtractor):
         }
 
         response = self._get(endpoint, params=params)
-        #api call returns current stop bus is heading to and stop after, we want to access current
         estimates = response[0].get("Estimates")
 
         if estimates:
