@@ -1,24 +1,215 @@
-.links {
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FEF3C7 0%, #DBEAFE 100%);
+  padding: 2rem;
+}
+
+.container h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #1F2937;
+  margin-bottom: 0.5rem;
+}
+
+.container > p {
+  text-align: center;
+  color: #6B7280;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.center {
   display: flex;
+  align-items: center;
   justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FEF3C7 0%, #DBEAFE 100%);
+}
+
+.center h2 {
+  font-size: 2rem;
+  color: #1F2937;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
   gap: 1.5rem;
-  margin-top: 2rem;
+  max-width: 1400px;
+  margin: 0 auto 2rem;
+}
+
+@media (max-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formPanel,
+.mapPanel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.formPanel h2 {
+  font-size: 1.5rem;
+  color: #1F2937;
+  margin-bottom: 1.5rem;
+}
+
+.mapPanel {
+  padding: 0;
+  overflow: hidden;
+  height: 600px;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form label {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.95rem;
+  margin-bottom: -0.5rem;
+}
+
+.select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form button {
+  padding: 0.875rem 1.5rem;
+  background: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+
+.form button:hover:not(:disabled) {
+  background: #2563EB;
+}
+
+.form button:disabled {
+  background: #9CA3AF;
+  cursor: not-allowed;
+}
+
+.error {
+  background: #FEE2E2;
+  border: 1px solid #F87171;
+  color: #991B1B;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.result {
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #ECFDF5 0%, #DBEAFE 100%);
+  border: 2px solid #10B981;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.result h2 {
+  color: #1F2937;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.result p {
+  margin: 0.5rem 0;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.result strong {
+  color: #1F2937;
+  font-weight: 600;
+}
+
+.highlight {
+  background: white;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 1rem !important;
+  font-weight: 600;
+  color: #3B82F6 !important;
+  margin: 0.75rem 0 !important;
+}
+
+.stats {
+  padding-top: 0.75rem;
+  margin-top: 0.75rem !important;
+  border-top: 1px solid #D1D5DB;
+  font-size: 0.9rem !important;
+  color: #6B7280 !important;
+}
+
+.alternatives {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #D1D5DB;
+}
+
+.alternatives p {
+  font-size: 0.9rem;
+  color: #6B7280;
+  margin: 0.25rem 0;
+}
+
+.alternatives strong {
+  color: #374151;
 }
 
 .linkButton {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-  font-weight: 600;
-  text-decoration: none;
+  display: inline-block;
   padding: 0.75rem 1.5rem;
+  background: white;
+  color: #3B82F6;
+  text-decoration: none;
   border-radius: 8px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  font-family: "Inter-SemiBold", Helvetica, sans-serif;
-  border: none;
-  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+  margin: 0 auto;
+  display: block;
+  width: fit-content;
 }
 
 .linkButton:hover {
-  background-color: var(--white);
-  color: var(--primary-color);
+  background: #3B82F6;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
