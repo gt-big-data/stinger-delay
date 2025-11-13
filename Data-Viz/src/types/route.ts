@@ -1,12 +1,14 @@
 import { Stop } from './stop';
-
-export type { Stop };
+import { DelayPrediction, LiveBusLocation } from './delay';
 
 export interface Route {
   id: string;
   name: string;
-  code?: string;
   color?: string;
   stops: Stop[];
-  active?: boolean;
+  busLocations?: LiveBusLocation[];  // Add this property
+  delayPredictions?: DelayPrediction[];
+  pathGeoJson?: any;
 }
+export type { Stop };
+
