@@ -145,6 +145,7 @@
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   border-radius: 12px;
   border: 2px solid #3b82f6;
+  animation: slideIn 0.3s ease-out;
 }
 
 .result h2 {
@@ -187,7 +188,7 @@
   font-weight: 500;
 }
 
-/* Walking Section */
+/* Walking Section (for bus routes) */
 .walking {
   background: #f3f4f6;
   padding: 0.75rem;
@@ -207,6 +208,36 @@
   color: #4b5563;
   font-size: 0.95rem;
   font-weight: 500;
+}
+
+/* Walking-Only Result */
+.walkingOnly {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 5px solid #22c55e;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.1);
+}
+
+.walkingOnly p {
+  margin: 0.75rem 0;
+  color: #166534;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.walkingOnly strong {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.walkingOnly p:last-child {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #bbf7d0;
+  font-style: italic;
+  color: #15803d;
 }
 
 /* Route Segments */
@@ -260,23 +291,6 @@
   50% {
     opacity: 0.8;
   }
-}
-
-.alternatives {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  border-left: 4px solid #8b5cf6;
-}
-
-.alternatives p {
-  margin: 0.5rem 0;
-  color: #4b5563;
-}
-
-.alternatives strong {
-  color: #7c3aed;
 }
 
 /* Map Panel */
@@ -354,6 +368,14 @@
   .walking p {
     font-size: 0.85rem;
   }
+
+  .walkingOnly {
+    padding: 1rem;
+  }
+
+  .walkingOnly p {
+    font-size: 0.9rem;
+  }
 }
 
 /* Loading Animation */
@@ -373,13 +395,6 @@
 /* Smooth Transitions */
 * {
   box-sizing: border-box;
-}
-
-.result,
-.segment,
-.error,
-.walking {
-  animation: slideIn 0.3s ease-out;
 }
 
 @keyframes slideIn {
