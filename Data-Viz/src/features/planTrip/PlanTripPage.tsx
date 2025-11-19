@@ -154,7 +154,6 @@ const PlanTripPage: React.FC = () => {
     
     const allCoordinates: [number, number][] = [];
     
-    // Walking-only route
     if (result.transfers === -1) {
       if (fromCoords && toCoords) {
         allCoordinates.push([fromCoords.lat, fromCoords.lng], [toCoords.lat, toCoords.lng]);
@@ -182,8 +181,6 @@ const PlanTripPage: React.FC = () => {
         );
       }
     } else {
-      // Bus route - only show key markers
-      
       if (fromCoords) {
         allCoordinates.push([fromCoords.lat, fromCoords.lng]);
         markersRef.current.push(
@@ -197,7 +194,6 @@ const PlanTripPage: React.FC = () => {
         const coordinates: [number, number][] = segment.stops.map(s => [s.latitude, s.longitude]);
         allCoordinates.push(...coordinates);
         
-        // Draw smooth bus route line
         routeLineRef.current.push(
           L.polyline(coordinates, { 
             color: segment.route.color || '#3B82F6', 
@@ -209,7 +205,6 @@ const PlanTripPage: React.FC = () => {
           }).addTo(mapInstanceRef.current!)
         );
         
-        // Only show transfer and boarding markers
         if (index > 0) {
           const transferStop = segment.stops[0];
           markersRef.current.push(
@@ -428,83 +423,104 @@ const PlanTripPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <h1>🚌 Plan Your GT Trip</h1>
-      <p>Select any two stops - we'll find the route or suggest walking!</p>
-      <div className={styles.gridContainer}>
-        <div className={styles.formPanel}>
-          <h2>Plan Your Route</h2>
-          <div className={styles.form}>
-            <label>🏁 Starting Location</label>
+      <p>Select your starting point and destination</p>
+      
+      <div className={styles.topSection}>
+        <div className={styles.selectionBox}>
+          <div className={styles.selectGroup}>
+            <label>From</label>
             <select value={fromLocation} onChange={handleFromLocationSelect} className={styles.select}>
               <option value="">Select starting stop</option>
               {stops.map(stop => (
                 <option key={stop.id} value={stop.name}>{stop.name}</option>
               ))}
             </select>
-            <label>🎯 Destination</label>
+          </div>
+          
+          <div className={styles.selectGroup}>
+            <label>To</label>
             <select value={toLocation} onChange={handleToLocationSelect} className={styles.select}>
               <option value="">Select destination</option>
               {stops.map(stop => (
                 <option key={stop.id} value={stop.name}>{stop.name}</option>
               ))}
             </select>
-            <button onClick={findOptimalRoute} disabled={searching}>
-              {searching ? "Finding Route..." : "Find Best Route"}
-            </button>
-            {error && <p className={styles.error}>{error}</p>}
           </div>
-          {result && (
-            <div className={styles.result}>
-              {result.transfers === -1 ? (
-                <>
+          
+          <button onClick={findOptimalRoute} disabled={searching} className={styles.findButton}>
+            {searching ? "Finding Route..." : "Find Route"}
+          </button>
+          
+          {error && <p className={styles.error}>{error}</p>}
+        </div>
+
+        {result && (
+          <div className={styles.routeBox}>
+            {result.transfers === -1 ? (
+              <>
+                <div className={styles.routeHeader}>
                   <h2>🚶 Walking Recommended</h2>
-                  <p className={styles.highlight}>
-                    Walking is faster than taking the bus for this short distance!
-                  </p>
-                  <div className={styles.walkingOnly}>
-                    <p>📍 <strong>Direct walk:</strong> {(result.walkingDistanceEnd * 1000).toFixed(0)}m</p>
-                    <p>⏱️ <strong>Estimated time:</strong> {((result.walkingDistanceEnd / 5) * 60).toFixed(0)} minutes</p>
-                    <p>💡 This is a short walk and you'll arrive faster than waiting for a bus!</p>
+                  <p className={styles.subtitle}>Faster than taking the bus!</p>
+                </div>
+                <div className={styles.routeDetails}>
+                  <div className={styles.detailRow}>
+                    <span className={styles.label}>Distance:</span>
+                    <span className={styles.value}>{(result.walkingDistanceEnd * 1000).toFixed(0)}m</span>
                   </div>
-                </>
-              ) : (
-                <>
+                  <div className={styles.detailRow}>
+                    <span className={styles.label}>Time:</span>
+                    <span className={styles.value}>{((result.walkingDistanceEnd / 5) * 60).toFixed(0)} min</span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.routeHeader}>
                   <h2>✅ Route Found</h2>
-                  <p className={styles.highlight}>
-                    {result.transfers === 0 ?
-                      <>🚌 Direct route - No transfers needed!</> :
-                      <>🔄 {result.transfers} transfer{result.transfers > 1 ? 's' : ''} required</>
-                    }
+                  <p className={styles.subtitle}>
+                    {result.transfers === 0 ? 'Direct route' : `${result.transfers} transfer${result.transfers > 1 ? 's' : ''}`}
                   </p>
-                  <div className={styles.walking}>
-                    <p>🚶 Walk {(result.walkingDistanceStart * 1000).toFixed(0)}m to <strong>{result.startStop.name}</strong></p>
+                </div>
+                <div className={styles.routeSteps}>
+                  <div className={styles.step}>
+                    <div className={styles.stepIcon}>🚶</div>
+                    <div className={styles.stepContent}>
+                      <strong>Walk to {result.startStop.name}</strong>
+                      <span>{(result.walkingDistanceStart * 1000).toFixed(0)}m</span>
+                    </div>
                   </div>
+                  
                   {result.segments.map((segment, index) => (
-                    <div key={index} className={styles.segment}>
-                      <h3>{index === 0 ? '🟢' : '🔄'} {segment.route.name}</h3>
-                      <p>Board at: <strong>{segment.fromStop.name}</strong></p>
-                      <p>Ride {segment.stops.length - 1} stop{segment.stops.length > 2 ? 's' : ''}</p>
-                      <p>Exit at: <strong>{segment.toStop.name}</strong></p>
-                      {index < result.segments.length - 1 && (
-                        <p className={styles.transfer}>↓ Transfer to {result.segments[index + 1].route.name}</p>
-                      )}
+                    <div key={index} className={styles.step}>
+                      <div className={styles.stepIcon} style={{ backgroundColor: segment.route.color }}>🚌</div>
+                      <div className={styles.stepContent}>
+                        <strong>{segment.route.name}</strong>
+                        <span>Board at {segment.fromStop.name}</span>
+                        <span>Exit at {segment.toStop.name}</span>
+                        <span className={styles.stopsCount}>{segment.stops.length - 1} stops</span>
+                      </div>
                     </div>
                   ))}
-                  <div className={styles.walking}>
-                    <p>🚶 Walk {(result.walkingDistanceEnd * 1000).toFixed(0)}m to destination</p>
+                  
+                  <div className={styles.step}>
+                    <div className={styles.stepIcon}>🎯</div>
+                    <div className={styles.stepContent}>
+                      <strong>Arrive at destination</strong>
+                      <span>Walk {(result.walkingDistanceEnd * 1000).toFixed(0)}m</span>
+                    </div>
                   </div>
-                  <p className={styles.stats}>
-                    Total: {result.totalStops} bus stops + {((result.walkingDistanceStart + result.walkingDistanceEnd) * 1000).toFixed(0)}m walking
-                  </p>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-        <div className={styles.mapPanel}>
-          <div ref={mapRef} className={styles.map}></div>
-        </div>
+                </div>
+              </>
+            )}
+          </div>
+        )}
       </div>
-      <Link to="/" className={styles.linkButton}>← Return Home</Link>
+
+      <div className={styles.mapContainer}>
+        <div ref={mapRef} className={styles.map}></div>
+      </div>
+      
+      <Link to="/" className={styles.linkButton}>← Back to Home</Link>
     </div>
   );
 };
