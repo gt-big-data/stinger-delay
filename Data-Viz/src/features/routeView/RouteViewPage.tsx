@@ -1,87 +1,74 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import styles from "./RouteViewPage.module.css";
+
 import { Route } from "@/types/route";
 import { Stop } from "@/types/stop";
-import { DelayPrediction, LiveBusLocation } from "@/types/delay";
-import { fetchRouteGeometry, fetchTimeMatrix } from "@/lib/api/ors";
 import { mockRoutes } from "../../lib/mocks/mockTripData";
-import StopList from "./components/StopList";
+
+import RouteHeader from "./components/RouteHeader";
+import RouteStatsBanner from "./components/RouteStatsBanner";
+import StopTimeline from "./components/StopTimeline";
 import RouteMap from "./components/RouteMap";
-import ETAInfo from "./components/ETAInfo";
-import menu_open from "../../assets/menu_open.png";
-import menu_closed from "../../assets/menu_closed.png";
 
 const RouteViewPage: React.FC = () => {
   const [routes, setRoutes] = useState<Route[]>([]);
   const [selectedRoute, setSelectedRoute] = useState<Route | null>(null);
-  const [selectedStop, setSelectedStop] = useState<Stop | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const [searchParams] = useSearchParams();
+  const routeId = searchParams.get("routeId");
 
   useEffect(() => {
     setRoutes(mockRoutes);
   }, []);
 
-  const handleRouteSelect = (routeId: string) => {
-    const route = routes.find((r) => r.id === routeId) || null;
-    setSelectedRoute(route);
-    setSelectedStop(null);
-  };
+  useEffect(() => {
+    if (!routes.length) return;
 
-  const handleStopSelect = (stop: Stop) => {
-    setSelectedStop(stop);
-  };
+    if (routeId) {
+      const found = routes.find((r) => r.id === routeId);
+      setSelectedRoute(found || routes[0]);
+    } else {
+      setSelectedRoute(routes[0]);
+    }
+  }, [routes, routeId]);
 
   return (
     <div className={styles.container}>
-      {/* <h1 className={styles.header}>Route View</h1> */}
       <div className={styles.mapFullWrapper}>
+        {/* Sidebar toggle button */}
         <button
           className={styles.collapseToggleAlways}
           onClick={() => setSidebarCollapsed((c) => !c)}
         >
           {sidebarCollapsed ? (
-            <img src={menu_open} alt="Expand Sidebar" />
+            <span aria-label="Expand sidebar">🡢</span>
           ) : (
-            <img src={menu_closed} alt="Collapse Sidebar" />
+            <span aria-label="Collapse sidebar">🡠</span>
           )}
         </button>
 
+        {/* Sidebar */}
         <div
           className={`${styles.sidebarOverlay} ${
             sidebarCollapsed ? styles.hidden : ""
           }`}
         >
-          <select
-            className={styles.selectRoute}
-            value={selectedRoute?.id || ""}
-            onChange={(e) => handleRouteSelect(e.target.value)}
-          >
-            <option value="">Select a route</option>
-            {routes.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.name}
-              </option>
-            ))}
-          </select>
+          {selectedRoute && <RouteHeader route={selectedRoute} />}
+
+          {selectedRoute && <RouteStatsBanner route={selectedRoute} />}
 
           {selectedRoute && (
-            <StopList
+            <StopTimeline
               stops={selectedRoute.stops}
-              onSelectStop={handleStopSelect}
-              selectedStopId={selectedStop?.id}
+              predictions={selectedRoute.delayPredictions || []}
+              busLocations={selectedRoute.busLocations}
             />
-          )}
-
-          {selectedRoute && (
-            <div className={styles.infoPanel}>
-              <ETAInfo
-                predictions={selectedRoute.delayPredictions || []}
-                selectedStopId={selectedStop?.id}
-              />
-            </div>
           )}
         </div>
 
+        {/* Map container */}
         <div className={styles.mapContainer}>
           <RouteMap
             stops={selectedRoute?.stops || []}

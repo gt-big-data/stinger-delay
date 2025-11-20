@@ -1,40 +1,34 @@
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   background-color: var(--primary-color);
   color: var(--text-color);
-  /* padding: 1rem; */
-  font-family: "Inter", Helvetica, sans-serif;
-  position: absolute;
-  width: 100%;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 1rem;
+  font-family: "Inter", sans-serif;
 }
 
 .mapFullWrapper {
-  position: absolute;
-  flex: 1;
+  position: relative;
   width: 100%;
+  height: 100%;
 }
 
 .mapContainer {
+  height: 100%;
   width: 100%;
-  height: calc(100vh - 50px);
 }
 
 .sidebarOverlay {
   position: absolute;
-  width: 300px;
-  max-height: calc(100vh - 2rem);
+  left: 0;
+  top: 0;
+  width: 450px;
   height: 100%;
-  background-color: var(--white);
+  background: var(--white);
   color: var(--primary-color);
   padding: 1rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
   z-index: 999;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -45,34 +39,27 @@
   pointer-events: none;
 }
 
-.selectRoute {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 1px solid var(--subtle-light);
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
-
 .collapseToggleAlways {
   position: absolute;
   bottom: 10px;
   left: 10px;
-  width: 50px;
-  height: 50px;
-  background: var(--secondary-color);
-  color: var(--white);
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   border: 2px solid var(--white);
-  border-radius: 20%;
+  background-color: var(--secondary-color);
   cursor: pointer;
   z-index: 1000;
 }
 
-.infoPanel {
-  margin-top: 1rem;
-  background-color: var(--white);
-  color: var(--primary-color);
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.collapseToggleAlways img {
+  width: 100%;
+  height: 100%;
+}
+
+.routeTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #003057;
+  margin-bottom: 12px;
 }
