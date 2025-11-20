@@ -1,0 +1,131 @@
+.routeCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 6px solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.routeCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.gold {
+  border-left-color: #b3a369;
+}
+.blue {
+  border-left-color: #003057;
+}
+.red {
+  border-left-color: #dc3545;
+}
+.green {
+  border-left-color: #28a745;
+}
+.purple {
+  border-left-color: #6f42c1;
+}
+.defaultRoute {
+  border-left-color: #003057;
+}
+
+.routeInfo {
+  flex: 1;
+}
+
+.routeHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.routeIcon {
+  font-size: 28px;
+}
+
+.routeName {
+  font-size: 22px;
+  font-weight: 700;
+  color: #003057;
+}
+
+.routeBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.routeBadge.inactive {
+  background-color: #dc3545;
+}
+
+.routeBadge.active {
+  background-color: #28a745;
+}
+
+.routeDetails {
+  display: flex;
+  gap: 20px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #666;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.routeArrow {
+  font-size: 24px;
+  color: #ccc;
+  transition: all 0.3s ease;
+}
+
+.routeCard:hover .routeArrow {
+  color: #b3a369;
+  transform: translateX(4px);
+}
+
+.delayIndicator {
+  background-color: #d4edda; /* default color green */
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: green;
+}
+
+.delayIndicator.medium {
+  background-color: #ffeeba;
+  color: #856404;
+}
+
+.delayIndicator.high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.delayIndicator.unknown {
+  background-color: #e2e3e5;
+  color: #6c757d;
+}
+
+.delayIndicator.unknown {
+  background-color: #e2e3e5;
+  color: #6c757d;
+}

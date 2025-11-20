@@ -1,42 +1,33 @@
 import React from "react";
 import { Stop } from "@/types/stop";
+import styles from "./StopList.module.css";
 
-interface StopListProps {
+interface Props {
   stops: Stop[];
-  onSelectStop: (stop: Stop) => void;
   selectedStopId?: string;
+  onSelectStop: (stop: Stop) => void;
 }
 
-const StopList: React.FC<StopListProps> = ({
-  stops,
-  onSelectStop,
-  selectedStopId,
-}) => {
+const StopList: React.FC<Props> = ({ stops, selectedStopId, onSelectStop }) => {
   return (
-    <ul style={{ listStyle: "none", padding: 0 }}>
-      {stops.map((stop) => (
-        <li
+    <div className={styles.timelineContainer}>
+      {stops.map((stop, index) => (
+        <div
           key={stop.id}
+          className={`${styles.stopItem} ${
+            selectedStopId === stop.id ? styles.active : ""
+          }`}
           onClick={() => onSelectStop(stop)}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#f5f5f5";
-            e.currentTarget.style.transition = "background-color 0.15s ease";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor =
-              stop.id === selectedStopId ? "#eee" : "transparent";
-          }}
-          style={{
-            padding: "1rem",
-            cursor: "pointer",
-            backgroundColor:
-              stop.id === selectedStopId ? "#eee" : "transparent",
-          }}
         >
-          {stop.name}
-        </li>
+          <div className={styles.dot} />
+          <div className={styles.stopContent}>
+            <div className={styles.stopName}>{stop.name}</div>
+
+            {index < stops.length - 1 && <div className={styles.line} />}
+          </div>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 

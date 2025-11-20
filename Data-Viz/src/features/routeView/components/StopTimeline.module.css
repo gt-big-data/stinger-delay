@@ -1,0 +1,182 @@
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #999 0%, #003057 50%, #999 100%);
+}
+
+.stopItem {
+  position: relative;
+  margin-bottom: 24px;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.passed {
+  opacity: 0.5;
+  background: #f8f9fa;
+}
+
+.next {
+  border: 2px solid #b3a369;
+  box-shadow: 0 4px 12px rgba(179, 163, 105, 0.2);
+}
+
+.stopMarker {
+  position: absolute;
+  left: -32px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: white;
+  border: 3px solid #003057;
+  border-radius: 50%;
+}
+
+.passed .stopMarker {
+  background: #999;
+  border-color: #999;
+}
+
+.next .stopMarker {
+  width: 20px;
+  height: 20px;
+  left: -34px;
+  background: #b3a369;
+  border-color: #b3a369;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(179, 163, 105, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(179, 163, 105, 0);
+  }
+}
+
+.stopHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.stopName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #003057;
+}
+
+.stopNumber {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.stopTime {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eta {
+  font-size: 12px;
+  color: #28a745;
+  font-weight: 600;
+}
+
+.etaPassed {
+  color: #999;
+}
+
+.delay {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.delayHigh {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.busPosition {
+  position: relative;
+  margin: 32px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #003057 0%, #004a7f 100%);
+  border-radius: 12px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+}
+
+.busPosition::before {
+  content: "";
+  position: absolute;
+  left: -32px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: #003057;
+  border: 3px solid #b3a369;
+  border-radius: 50%;
+  animation: busMove 3s infinite;
+}
+
+@keyframes busMove {
+  0%,
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+.busIcon {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.busInfo {
+  text-align: center;
+}
+
+.busNumber {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.busStatus {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.betweenStops {
+  font-size: 12px;
+  margin-top: 8px;
+  opacity: 0.8;
+}
