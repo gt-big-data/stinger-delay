@@ -422,7 +422,7 @@ const PlanTripPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1>🚌 Plan Your GT Trip</h1>
+      <h1>Plan Trip</h1>
       <p>Select your starting point and destination</p>
       
       <div className={styles.topSection}>
