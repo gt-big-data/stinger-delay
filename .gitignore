@@ -24,5 +24,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+<<<<<<< HEAD
+# Git internals (should never be tracked)
+.git/
+*.pack
+.eslintcache
+=======
 .idea/
 
+>>>>>>> main
