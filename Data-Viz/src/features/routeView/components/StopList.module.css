@@ -1,0 +1,46 @@
+.timelineContainer {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.stopItem {
+  position: relative;
+  padding: 1rem 0 1rem 1.5rem;
+  cursor: pointer;
+}
+
+.stopItem:hover {
+  background-color: #f5f5f5;
+}
+
+.stopItem.active {
+  background-color: #eee;
+}
+
+.dot {
+  position: absolute;
+  left: 0.25rem;
+  top: 1.25rem;
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.stopContent {
+  position: relative;
+}
+
+.stopName {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.line {
+  position: absolute;
+  top: 1.25rem;
+  left: -1rem;
+  width: 2px;
+  height: calc(100% - 1.25rem);
+  background-color: var(--primary-color);
+}
