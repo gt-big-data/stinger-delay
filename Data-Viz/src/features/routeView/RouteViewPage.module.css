@@ -1,24 +1,65 @@
-.links {
+.container {
   display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-family: "Inter", sans-serif;
 }
 
-.linkButton {
+.mapFullWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.mapContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.sidebarOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 450px;
+  height: 100%;
+  background: var(--white);
+  color: var(--primary-color);
+  padding: 1rem;
+  overflow-y: auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hidden {
+  transform: translateX(-320px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.collapseToggleAlways {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  border: 2px solid var(--white);
   background-color: var(--secondary-color);
-  color: var(--primary-color);
-  font-weight: 600;
-  text-decoration: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  font-family: "Inter-SemiBold", Helvetica, sans-serif;
-  border: none;
   cursor: pointer;
+  z-index: 1000;
 }
 
-.linkButton:hover {
-  background-color: var(--white);
-  color: var(--primary-color);
+.collapseToggleAlways img {
+  width: 100%;
+  height: 100%;
+}
+
+.routeTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #003057;
+  margin-bottom: 12px;
 }

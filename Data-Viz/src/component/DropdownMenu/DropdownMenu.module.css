@@ -1,0 +1,37 @@
+.dropdown {
+  position: relative;
+  font-family: "Inter", Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.toggle {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: 8px 12px;
+  background-color: var(--white);
+  border: 1px solid var(--subtle-light);
+  border-radius: 4px;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  background-color: var(--white);
+  border: 1px solid var(--subtle-light);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 100%;
+}
+
+.option {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.option:hover {
+  background-color: var(--subtle-light);
+}

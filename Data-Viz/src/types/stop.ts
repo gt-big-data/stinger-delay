@@ -4,4 +4,8 @@ export interface Stop {
   latitude: number;
   longitude: number;
   sequence?: number;
+<<<<<<< HEAD
+=======
+  routeId?: string;
+>>>>>>> main
 }

@@ -1,86 +1,212 @@
 :root {
   --primary-color: #003057;
   --secondary-color: #b3a369;
-  --text-color: #ffffff;
-  --subtle-light: rgba(175, 177, 182, 1);
-  --white: rgba(255, 255, 255, 1);
+  --white: #ffffff;
+  --muted: #666;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
+.screen {
   min-height: 100vh;
-  padding: 2rem;
-  margin: 0;
-  background-color: var(--primary-color);
-  color: var(--text-color);
+  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter",
+    sans-serif;
 }
 
-.header {
+/* Header */
+.mainHeader {
+  background: linear-gradient(135deg, #003057 0%, #004a7f 100%);
+  color: white;
+  padding: 32px 20px;
   text-align: center;
-  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.title {
-  font-family: "Inter-Bold", Helvetica, sans-serif;
-  font-size: 3rem;
+.appLogo {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.appTitle {
+  font-size: 28px;
   font-weight: 700;
-  color: var(--secondary-color);
-  margin: 0;
+  margin-bottom: 6px;
+  color: var(--white);
 }
 
-.subtitle {
-  font-family: "Inter", Helvetica, sans-serif;
-  font-size: 1.25rem;
-  color: var(--text-color);
-  margin-top: 0.5rem;
+.appSubtitle {
+  font-size: 14px;
+  opacity: 0.95;
 }
 
-.content {
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  min-height: 100vh;
+/* Container */
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+/* Info banner */
+.infoBanner {
+  background: linear-gradient(135deg, #b3a369 0%, #8a7d4f 100%);
+  color: white;
   padding: 20px;
-  box-sizing: border-box;
-}
-
-.paragraph {
-  font-family: "Inter", Helvetica, sans-serif;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text-color);
-  margin-bottom: 1rem;
+  border-radius: 12px;
   text-align: center;
+  margin-bottom: 24px;
 }
 
-.links {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.linkButton {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
+.infoBannerTitle {
+  font-size: 16px;
   font-weight: 600;
-  text-decoration: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  font-family: "Inter-SemiBold", Helvetica, sans-serif;
-  border: none;
-  cursor: pointer;
+  margin-bottom: 6px;
 }
 
-.linkButton:hover {
-  background-color: var(--white);
+.infoBannerText {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Stats */
+.quickStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.statCard {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Section header */
+.sectionHeader {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+  padding-left: 4px;
+}
+
+/* Routes grid */
+.routesGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* Route card */
+.routeCard {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 6px solid var(--primary-color);
+}
+
+.routeCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* color variants */
+.gold {
+  border-left-color: #b3a369;
+}
+
+/* fallback */
+.defaultRoute {
+  border-left-color: #003057;
+}
+
+/* card internals */
+.routeInfo {
+  flex: 1;
+}
+
+.routeHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.routeIcon {
+  font-size: 28px;
+}
+
+.routeName {
+  font-size: 20px;
+  font-weight: 700;
   color: var(--primary-color);
 }
 
+.routeBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.routeDetails {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.routeArrow {
+  font-size: 22px;
+  color: #ccc;
+}
+
+/* delay indicator */
+.delayIndicator {
+  background-color: #fff3cd;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #856404;
+}
+
+/* footer */
 .footer {
   text-align: center;
   padding: 1rem 0;
   font-size: 0.875rem;
-  color: var(--text-color);
+  color: #444;
+  margin-top: 36px;
 }

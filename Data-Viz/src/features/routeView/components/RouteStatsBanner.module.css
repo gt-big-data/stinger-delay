@@ -1,0 +1,26 @@
+.infoBannerRoute {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bannerItem {
+  text-align: center;
+}
+
+.bannerLabel {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.bannerValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #003057;
+}
