@@ -24,7 +24,7 @@ class TrafficExtractor(BaseExtractor):
     def extract(self) -> pd.DataFrame:
         response = self._get("v7/incidents", headers=self.headers, params=self.params)
         if (response.get("error") is not None):
-            raise Exception(f"Error in TrafficExtractor extract(): {response['error']['message']}")
+            raise Exception(f"Error in TrafficExtractor extract(): {response}")
         incidents: dict[str, dict] = response["results"]
         incidents_simplified: list[dict] = []
         for incident in incidents:

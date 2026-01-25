@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 import os
+from dotenv import load_dotenv
 
 class Config:
-    pg_dsn: str = os.environ["PG_DSN"]
+    load_dotenv()
+    #pg_dsn: str = os.environ["PG_DSN"]
     bus_key: str = os.environ["BUS_API_KEY"]
     weather_user_agent: str = os.environ["WEATHER_USER_AGENT"]
     traffic_key: str = os.environ["TRAFFIC_API_KEY"]

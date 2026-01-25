@@ -3,7 +3,7 @@ WeatherExtractor.py
 Extracts weather data from weather.gov API and formats it for the database.
 """
 
-from BaseExtractor import ABCBaseExtractor as BaseExtractor
+from .BaseExtractor import ABCBaseExtractor as BaseExtractor
 import pandas as pd
 from datetime import datetime
 import re

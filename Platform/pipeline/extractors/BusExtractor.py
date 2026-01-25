@@ -1,4 +1,4 @@
-from BaseExtractor import ABCBaseExtractor as BaseExtractor
+from .BaseExtractor import ABCBaseExtractor as BaseExtractor
 import pandas as pd
 from datetime import datetime, timedelta
 import pytz
@@ -17,8 +17,12 @@ Northside Dr. - Atlantic Station: 26
 Nara/Science SQ: 22
 """
 class BusExtractor(BaseExtractor):
+
+    def __init__(self, base_url: str, api_key:str):
+        super().__init__(base_url, api_key)
+    
     def get_bus_data(self):
-        endpoint = "Services/JSONPRelay.svc/GetMapVehiclePoints"
+        endpoint = "/Services/JSONPRelay.svc/GetMapVehiclePoints?"
         params = {
             "apiKey": self.api_key,
             "isPublicMap": "true"
@@ -75,7 +79,7 @@ class BusExtractor(BaseExtractor):
         return bus_data
     
     def get_stop_info(self, vehicle_id):
-        endpoint = "Services/JSONPRelay.svc/GetVehicleRouteStopEstimates"
+        endpoint = "/Services/JSONPRelay.svc/GetVehicleRouteStopEstimates?"
         params = {
             "vehicleIdStrings": vehicle_id,
         }
