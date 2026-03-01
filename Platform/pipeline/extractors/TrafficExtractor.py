@@ -1,3 +1,4 @@
+from datetime import datetime
 from .BaseExtractor import ABCBaseExtractor as BaseExtractor
 import pandas as pd
 import polyline
@@ -63,7 +64,8 @@ class TrafficExtractor(BaseExtractor):
                 "is_road_closed": is_road_closed,
                 "start_time": start_time,
                 "end_time": end_time,
-                "comment": comment
+                "comment": comment,
+                "snapshot_time": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
             incidents_simplified.append(incident_simplified)
 

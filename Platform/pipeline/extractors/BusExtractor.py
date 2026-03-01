@@ -75,7 +75,7 @@ class BusExtractor(BaseExtractor):
                 "bus_speed": bus_speed,
                 "destination_route_stop_id": destination_route_stop_id,
                 "eta_to_stop": eta_to_stop,
-                "snapshot_time": utc_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+                "snapshot_time": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
 
             self.get_capacity_info(bus_data)
