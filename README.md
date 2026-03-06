@@ -28,6 +28,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Luke Felty https://www.linkedin.com/in/luke-felty-bbb92037a
 - Claire Lee https://www.linkedin.com/in/clxire-lee
 - Phil Abraham https://www.linkedin.com/in/pjsabraham/
+- Grace Yu https://www.linkedin.com/in/gracemyu
 
 ### Analysis
 
