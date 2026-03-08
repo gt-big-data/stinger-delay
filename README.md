@@ -14,12 +14,14 @@ The project is divided into 3 separate subteams, each focused on a core componen
 
 **Goal:** Automate the data pipeline for collecting, processing, and storing GPS and transit data.
 
-**Responsibilities:** 
+**Responsibilities:**
+
 - Scrape real-time GPS data
 - Clean and process collected data
 - Set up PostgreSQL for structured data storage
 
 **Members:**
+
 - Roy Chung https://www.linkedin.com/in/royschung/
 - Diana Garcia Perales https://www.linkedin.com/in/diana-garcia-perales-gatech/
 - Savvy Dusad
@@ -34,26 +36,30 @@ The project is divided into 3 separate subteams, each focused on a core componen
 
 **Goal:** Design, train, and evaluate predictive models for estimating bus delays.
 
-**Responsibilities:** 
+**Responsibilities:**
 
 **Members:**
-- Jay Imperatori https://www.linkedin.com/in/jay-imperatori/ 
+
+- Jay Imperatori https://www.linkedin.com/in/jay-imperatori/
 
 - Aadil Khond https://www.linkedin.com/in/aadilkhond/
 - Eileen Shengaout https://www.linkedin.com/in/eileen-shengaout-128ab61bb/
 - Kevin Hu https://www.linkedin.com/in/sijunkevinhu
+- Samanyu Vemuri https://www.linkedin.com/in/samanyuvemuri/
 
 ### Data-Viz
 
 **Goal:** Build an interactive frontend that displays delay predictions to users in a clear and intuitive way.
 
 **Responsibilites:**
+
 - Design UI mockups using Figma
 - Build the web interface using React
 - Integrate the backend with the other two subteams
 
 **Members:**
+
 - Hieu Nguyen https://www.linkedin.com/in/hieu-nguyen-px27/
 - Sahil Hora
 - Joshua Yi https://www.linkedin.com/in/jshuaoyi/
-- Arpit Kesharwani https://www.linkedin.com/in/arpit-kesharwani-287808276/ 
+- Arpit Kesharwani https://www.linkedin.com/in/arpit-kesharwani-287808276/
