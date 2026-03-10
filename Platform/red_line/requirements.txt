@@ -1,0 +1,5 @@
+# Red Line collector dependencies
+# Both packages are already present in conda General_env (Python 3.11).
+# Install only if running outside that environment.
+requests>=2.28.0
+pytz>=2023.3

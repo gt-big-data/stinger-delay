@@ -40,6 +40,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Aadil Khond https://www.linkedin.com/in/aadilkhond/
 - Eileen Shengaout https://www.linkedin.com/in/eileen-shengaout-128ab61bb/
 - Kevin Hu https://www.linkedin.com/in/sijunkevinhu
+- Tianyi Hu https://www.linkedin.com/in/tianyi-hu-404436289/
 
 ### Data-Viz
 
