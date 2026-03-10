@@ -46,6 +46,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Eileen Shengaout https://www.linkedin.com/in/eileen-shengaout-128ab61bb/
 - Kevin Hu https://www.linkedin.com/in/sijunkevinhu
 - Samanyu Vemuri https://www.linkedin.com/in/samanyuvemuri/
+- Alina Lin https://www.linkedin.com/in/alinal10/
 
 ### Data-Viz
 
