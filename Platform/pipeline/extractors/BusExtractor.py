@@ -121,11 +121,11 @@ class BusExtractor(BaseExtractor):
         for vehicle in response:
             bus_id = vehicle.get("VehicleID")
             capacity = vehicle.get("Capacity")
-            occupation = vehicle.get("CurrentOccupation")
+            occupancy = vehicle.get("CurrentOccupation")
             values = bus_data.get(bus_id)
             if values:
                 values["capacity"] = capacity
-                values["occupation"] = occupation
+                values["occupancy"] = occupancy
 
     
     def extract(self) -> pd.DataFrame:
