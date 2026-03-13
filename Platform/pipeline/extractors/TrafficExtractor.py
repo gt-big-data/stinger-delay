@@ -1,3 +1,4 @@
+from datetime import datetime
 from .BaseExtractor import ABCBaseExtractor as BaseExtractor
 import pandas as pd
 import polyline
@@ -23,39 +24,46 @@ class TrafficExtractor(BaseExtractor):
 
     def extract(self) -> pd.DataFrame:
         response = self._get("v7/incidents", headers=self.headers, params=self.params)
-        if (response.get("error") is not None):
+
+        if response.get("error") is not None:
             raise Exception(f"Error in TrafficExtractor extract(): {response}")
-        incidents: dict[str, dict] = response["results"]
-        incidents_simplified: list[dict] = []
+
+        incidents = response.get("results")
+        incidents_simplified = []
         for incident in incidents:
             # we're going to be primarily focused on whether or not there is an incident along our path rather than where exactly the incident is
             # documentation in api on what this int corresponds to
-            location = incident["location"]
-            shape = location["shape"]
-            links = shape["links"]
+            location = incident.get("location")
+            shape = location.get("shape")
+            links = shape.get("links")
             incident_polylines = []
+
             for link in links:
-                incident_points = link["points"]
+                incident_points = link.get("points")
                 # encode incidentLinks points as polyline
-                incident_PL = polyline.encode([(pt["lat"], pt["lng"]) for pt in incident_points])
+                incident_PL = polyline.encode([(pt.get("lat"), pt.get("lng")) for pt in incident_points])
                 incident_polylines.append(incident_PL)
             
-            details = incident["incidentDetails"]
-            type = details["type"]
-            if (type == "congestion" and incident.get("parentID") is not None):
+            details = incident.get("incidentDetails")
+            type = details.get("type")
+
+            if type == "congestion" and incident.get("parentID") is not None:
                 continue
-            if (type == "laneRestriction"):
+            if type == "laneRestriction":
                 vehicle_restrictions = details.get("vehicleRestrictions")
                 vehicle_type_restriction = vehicle_restrictions.get("vehicleType")
                 if ("bus" not in vehicle_type_restriction): #dont even add the incident; we shouldnt ever have incident type laneRestriction if it's not for buses
                     continue
+
             start_time = details.get("startTime") 
             end_time = details.get("endTime")
-            is_road_closed = details["roadClosed"]
-            if (is_road_closed):
+            is_road_closed = details.get("roadClosed")
+
+            if is_road_closed:
                 #this value can only exist if roadClosed is true; if not all the junctions are closed, just treat them like they're open even though there's more possibilities
-                if (details.get("junctionTraversability") != "allClosed"):
+                if details.get("junctionTraversability") != "allClosed":
                     isJunctionsOpen = True
+
             comment = details.get("comment")
             incident_simplified = {
                 "polylines": incident_polylines,
@@ -63,7 +71,8 @@ class TrafficExtractor(BaseExtractor):
                 "is_road_closed": is_road_closed,
                 "start_time": start_time,
                 "end_time": end_time,
-                "comment": comment
+                "comment": comment,
+                "snapshot_time": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
             incidents_simplified.append(incident_simplified)
 
