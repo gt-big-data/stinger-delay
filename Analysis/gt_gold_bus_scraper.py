@@ -19,14 +19,18 @@ from dotenv import load_dotenv
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-load_dotenv()
+# ── API endpoints ──────────────────────────────────────────────────────────
+EP_VEHICLES = "GetMapVehiclePoints"
+EP_ARRIVALS = "GetRouteStopArrivals"
+EP_ROUTES = "GetRoutes"
+EP_STOPS = "GetMapStopPoints"
 
+# ── Configuration ──────────────────────────────────────────────────────────
 BASE_URL = "https://gatech.transloc.com/Services/JSONPRelay.svc"
-API_KEY = os.environ["TRANSLOC_API_KEY"]
 TARGET_ROUTE_IDS = {29}
-
 POLL_INTERVAL = 30
-SERVICE_HOURS = (6, 23)
+SERVICE_START_HOUR = 6
+SERVICE_END_HOUR = 23
 
 OUTPUT_DIR = Path("bus_data")
 CSV_COLUMNS = [
@@ -35,20 +39,29 @@ CSV_COLUMNS = [
 ]
 
 
-def api_get(session, endpoint):
+def first_of(d, *keys, default="?"):
+    """Return the first truthy value found for the given keys, or default."""
+    for k in keys:
+        val = d.get(k)
+        if val is not None:
+            return val
+    return default
+
+
+def api_get(session, endpoint, api_key):
     resp = session.get(
         f"{BASE_URL}/{endpoint}",
-        params={"apiKey": API_KEY, "isPublicMap": "true"},
+        params={"apiKey": api_key, "isPublicMap": "true"},
         timeout=15,
     )
     resp.raise_for_status()
     return resp.json()
 
 
-def poll(session, snapshot_time):
+def poll(session, api_key, snapshot_time):
     """Fetch vehicles + ETAs, merge into CSV rows for target routes."""
     vehicles = {
-        v["VehicleID"]: v for v in api_get(session, "GetMapVehiclePoints")
+        v["VehicleID"]: v for v in api_get(session, EP_VEHICLES, api_key)
         if v.get("RouteID") in TARGET_ROUTE_IDS
     }
     if not vehicles:
@@ -57,7 +70,7 @@ def poll(session, snapshot_time):
     # Build VehicleID -> [(RouteStopID, SecondsToStop)] index
     vehicle_etas = {}
     try:
-        arrivals = api_get(session, "GetRouteStopArrivals")
+        arrivals = api_get(session, EP_ARRIVALS, api_key)
     except Exception:
         arrivals = []
     for entry in arrivals:
@@ -88,7 +101,7 @@ def poll(session, snapshot_time):
                 "route_stop_id": rsid,
                 "estimated_time_arrival": (
                     (snapshot_time + timedelta(seconds=secs)).isoformat()
-                    if secs else ""
+                    if secs is not None else ""
                 ),
             })
     return rows
@@ -105,7 +118,6 @@ def write_rows(rows, csv_path):
 
 def _discover_section(label, fn):
     """Run a discover section, printing errors instead of crashing."""
-    time.sleep(1)
     print(f"\n=== {label} ===")
     try:
         fn()
@@ -113,21 +125,21 @@ def _discover_section(label, fn):
         print(f"  Failed: {e}")
 
 
-def discover(session):
+def discover(session, api_key):
     """Print routes, active vehicles, and sample ETAs."""
     def routes():
-        for r in api_get(session, "GetRoutes"):
-            rid = r.get("RouteID", r.get("ID", "?"))
-            name = r.get("Description", r.get("LongName", r.get("Name", "?")))
+        for r in api_get(session, EP_ROUTES, api_key):
+            rid = first_of(r, "RouteID", "ID")
+            name = first_of(r, "Description", "LongName", "Name")
             print(f"  RouteID={rid:<5} {name}")
 
     def vehicles():
-        for v in api_get(session, "GetMapVehiclePoints"):
+        for v in api_get(session, EP_VEHICLES, api_key):
             print(f"  Vehicle {v.get('Name', '?')} (ID={v.get('VehicleID')}) "
                   f"RouteID={v.get('RouteID')} Speed={v.get('GroundSpeed', 0)}")
 
     def arrivals():
-        for entry in api_get(session, "GetRouteStopArrivals")[:5]:
+        for entry in api_get(session, EP_ARRIVALS, api_key)[:5]:
             ests = ", ".join(
                 f"Vehicle {e['VehicleID']} in {e['SecondsToStop']}s"
                 for e in entry.get("VehicleEstimates", [])[:3]
@@ -136,10 +148,10 @@ def discover(session):
                   f"ETAs: [{ests}]")
 
     def stops():
-        for s in api_get(session, "GetMapStopPoints")[:10]:
-            sid = s.get("RouteStopID", s.get("StopID", s.get("ID", "?")))
+        for s in api_get(session, EP_STOPS, api_key)[:10]:
+            sid = first_of(s, "RouteStopID", "StopID", "ID")
             print(f"  StopID={sid:<5} RouteID={s.get('RouteID', '?'):<5} "
-                  f"{s.get('Description', s.get('Name', '?'))}")
+                  f"{first_of(s, 'Description', 'Name')}")
 
     _discover_section("Routes", routes)
     _discover_section("Active Vehicles", vehicles)
@@ -147,25 +159,38 @@ def discover(session):
     _discover_section("Stops", stops)
 
 
-def run_scraper(session):
+def _seconds_until_service():
+    """Return seconds until the next weekday service window, or 0 if in service now."""
+    now = datetime.now()
+    if now.weekday() < 5 and SERVICE_START_HOUR <= now.hour < SERVICE_END_HOUR:
+        return 0
+    # Find the next weekday at SERVICE_START_HOUR
+    target = now.replace(hour=SERVICE_START_HOUR, minute=0, second=0, microsecond=0)
+    if target <= now:
+        target += timedelta(days=1)
+    while target.weekday() >= 5:
+        target += timedelta(days=1)
+    return (target - now).total_seconds()
+
+
+def run_scraper(session, api_key):
     OUTPUT_DIR.mkdir(exist_ok=True)
     total_polls = total_rows = errors = 0
 
     print(f"Scraping routes {TARGET_ROUTE_IDS} every {POLL_INTERVAL}s "
-          f"({SERVICE_HOURS[0]}:00-{SERVICE_HOURS[1]}:00 weekdays)")
+          f"({SERVICE_START_HOUR}:00-{SERVICE_END_HOUR}:00 weekdays)")
 
     try:
         while True:
-            now = datetime.now()
-            if now.weekday() >= 5:
-                time.sleep(300)
-                continue
-            if not (SERVICE_HOURS[0] <= now.hour < SERVICE_HOURS[1]):
-                time.sleep(60)
+            wait = _seconds_until_service()
+            if wait > 0:
+                print(f"Outside service hours — sleeping {wait:.0f}s")
+                time.sleep(wait)
                 continue
 
+            now = datetime.now()
             try:
-                rows = poll(session, now)
+                rows = poll(session, api_key, now)
                 if rows:
                     csv_path = OUTPUT_DIR / f"gt_bus_data_{now:%Y-%m-%d}.csv"
                     write_rows(rows, csv_path)
@@ -192,14 +217,19 @@ def main():
                         help="Show routes, vehicles, stops, then exit")
     args = parser.parse_args()
 
+    load_dotenv()
+    api_key = os.environ.get("TRANSLOC_API_KEY")
+    if not api_key:
+        sys.exit("Error: TRANSLOC_API_KEY environment variable not set")
+
     session = requests.Session()
     retry = Retry(total=3, backoff_factor=1, status_forcelist=[429, 500, 502, 503, 504])
     session.mount("https://", HTTPAdapter(max_retries=retry))
 
     if args.discover:
-        discover(session)
+        discover(session, api_key)
     else:
-        run_scraper(session)
+        run_scraper(session, api_key)
 
 
 if __name__ == "__main__":
