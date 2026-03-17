@@ -46,7 +46,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Eileen Shengaout https://www.linkedin.com/in/eileen-shengaout-128ab61bb/
 - Kevin Hu https://www.linkedin.com/in/sijunkevinhu
 - Samanyu Vemuri https://www.linkedin.com/in/samanyuvemuri/
-
+- Tommy Nguyen https://www.linkedin.com/in/tommy-ngn/
 ### Data-Viz
 
 **Goal:** Build an interactive frontend that displays delay predictions to users in a clear and intuitive way.
