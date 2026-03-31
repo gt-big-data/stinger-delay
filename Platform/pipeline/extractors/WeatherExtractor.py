@@ -25,7 +25,7 @@ class WeatherExtractor(BaseExtractor):
     # Schema that matches your weather_data table
     SCHEMA_COLUMNS = [
         'recorded_at',        # When weather.gov recorded this
-        'fetched_at',         # When we fetched it
+        'snapshot_time',         # When we fetched it
         'temperature',        # Temperature in Fahrenheit
         'precipitation_probability',  # 0-100%
         'wind_speed',         # mph
@@ -126,7 +126,7 @@ class WeatherExtractor(BaseExtractor):
             # Step 4: Parse data from the current period
             weather_dict = {
                 'recorded_at': self._parse_timestamp(current_period['startTime']),
-                'fetched_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                'snapshot_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                 'temperature': self._parse_temperature(current_period),
                 'precipitation_probability': self._parse_precipitation_probability(current_period),
                 'wind_speed': self._parse_wind_speed(current_period),
