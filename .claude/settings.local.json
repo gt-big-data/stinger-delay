@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/kevinhu/Programming/StingerDelay/stinger-delay/Analysis -type f \\\\\\(-name *.py -o -name *.js \\\\\\))"
+    ]
+  }
+}
