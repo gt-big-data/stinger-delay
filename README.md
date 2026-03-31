@@ -47,6 +47,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Kevin Hu https://www.linkedin.com/in/sijunkevinhu
 - Tianyi Hu https://www.linkedin.com/in/tianyi-hu-404436289/
 - Samanyu Vemuri https://www.linkedin.com/in/samanyuvemuri/
+- Tommy Nguyen https://www.linkedin.com/in/tommy-ngn/
 - Alina Lin https://www.linkedin.com/in/alinal10/
 
 ### Data-Viz
