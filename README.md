@@ -31,6 +31,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Claire Lee https://www.linkedin.com/in/clxire-lee
 - Phil Abraham https://www.linkedin.com/in/pjsabraham/
 - Grace Yu https://www.linkedin.com/in/gracemyu
+- Priscila Gerhardt https://www.linkedin.com/in/priscilagerhardt/
 
 ### Analysis
 
