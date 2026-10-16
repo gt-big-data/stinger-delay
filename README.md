@@ -49,6 +49,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Samanyu Vemuri https://www.linkedin.com/in/samanyuvemuri/
 - Tommy Nguyen https://www.linkedin.com/in/tommy-ngn/
 - Alina Lin https://www.linkedin.com/in/alinal10/
+- Theo Chen https://www.linkedin.com/in/chen-theo/
 
 ### Data-Viz
 
