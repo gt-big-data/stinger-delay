@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import json
 import unittest
 from datetime import datetime
+from pathlib import Path
 
 from app.data import clock
 from app.data.clock import ROUTE_GOLD, ROUTE_GREEN, ROUTE_RED, TZ
-from app.data.sources import get_arrivals, parse_live, record_poll_failure, reset_state
+from app.data.sources import get_arrivals, parse_live, record_poll_failure, reset_state, ride_seconds
 
 
 class SourcesTests(unittest.TestCase):
@@ -67,3 +69,24 @@ class SourcesTests(unittest.TestCase):
         self.assertEqual(clock.mode(), "LIVE")
         record_poll_failure()
         self.assertEqual(clock.mode(), "REPLAY")
+
+    def test_fixture_feed_drops_clough_and_blue(self) -> None:
+        path = Path(__file__).resolve().parents[1] / "fixtures" / "feed_arrivals.json"
+        payload = json.loads(path.read_text())
+        rows = parse_live(payload)
+        routes = {row.route_id for row in rows}
+        self.assertIn(ROUTE_RED, routes)
+        self.assertIn(ROUTE_GOLD, routes)
+        self.assertNotIn(ROUTE_GREEN, routes)
+        self.assertNotIn(21, routes)
+        self.assertNotIn(28, routes)
+        self.assertTrue(all(row.eta_s >= -30 for row in rows))
+        self.assertGreater(len(rows), 10)
+
+    def test_green_gold_ride_is_eta_difference(self) -> None:
+        self.assertIsNone(ride_seconds(ROUTE_RED, 30.0, 90.0))
+        self.assertIsNone(ride_seconds(ROUTE_GREEN, 100.0, 40.0))
+        self.assertIsNone(ride_seconds(ROUTE_GREEN, None, 40.0))
+        self.assertIsNone(ride_seconds(ROUTE_GOLD, 10.0, None))
+        self.assertEqual(ride_seconds(ROUTE_GREEN, 120.0, 180.0), 60.0)
+        self.assertEqual(ride_seconds(ROUTE_GOLD, 10.0, 40.0), 30.0)

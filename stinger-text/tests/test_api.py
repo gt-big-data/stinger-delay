@@ -41,6 +41,7 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(walked["mode"], "REPLAY")
         self.assertEqual(walked["verdict"], "NO_DEADLINE")
         self.assertEqual(walked["destination"]["id"], "west_village")
+        self.assertEqual(walked["notes"], [])
         self.assertEqual(walked["best"]["kind"], "walk")
         self.assertEqual(walked["delayPredictions"], [])
 

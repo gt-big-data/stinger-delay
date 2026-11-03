@@ -11,13 +11,22 @@ from __future__ import annotations
 import time
 import unittest
 from datetime import datetime, timedelta
+from unittest.mock import patch
 
 from app.data import clock
 from app.data.clock import TZ
 from app.data.places import resolve
 from app.data.sources import get_arrivals, reset_state
-from app.models import LatLng
-from app.routing.router import far_from_campus, plan_trip
+from app.models import LatLng, Place, StopArrival
+from app.routing.router import (
+    FAR_NOTE,
+    NO_BUS_NOTE,
+    SHORT_TRIP_NOTE,
+    _forward_s,
+    far_from_campus,
+    plan_trip,
+    stops_by_route,
+)
 
 
 def _trip(origin: str, dest: str, deadline=None):
@@ -45,6 +54,8 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(len(red), 1)
         self.assertEqual(red[0].board_stop.route_stop_id, 267)
         self.assertEqual(red[0].alight_stop.route_stop_id, 272)
+        self.assertTrue(all(option.route_id != 29 for option in plan.alternatives))
+        self.assertEqual(plan.notes, [])
 
     def test_west_village_to_klaus(self) -> None:
         plan = _trip("west village", "klaus")
@@ -91,6 +102,7 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(plan.verdict, "NO_DEADLINE")
         self.assertEqual(plan.alternatives, [])
         self.assertEqual(plan.best.arrive_at, plan.now)
+        self.assertEqual(plan.notes, [SHORT_TRIP_NOTE])
 
         started = time.perf_counter()
         _trip("west village", "klaus")
@@ -104,3 +116,37 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(plan.verdict, "NO_DEADLINE")
         self.assertIsNotNone(plan.best)
         self.assertEqual(plan.mode, "REPLAY")
+        self.assertIn(FAR_NOTE, plan.notes)
+        self.assertIn(NO_BUS_NOTE, plan.notes)
+
+    def test_no_arrivals_is_walk_only(self) -> None:
+        with patch("app.routing.router.get_arrivals", return_value=[]):
+            plan = _trip("klaus", "west village")
+        self.assertEqual(plan.best.kind, "walk")
+        self.assertEqual(plan.alternatives, [])
+        self.assertEqual(plan.notes, [NO_BUS_NOTE])
+
+    def test_green_ride_uses_stop_etas_not_segments(self) -> None:
+        catalog = stops_by_route()[17]
+        by_id = {stop.route_stop_id: stop for stop in catalog}
+        board = by_id[196]
+        alight = by_id[418]
+        dest = Place(id="green-alight", name="Green alight", loc=alight.loc)
+        arrivals = [
+            StopArrival(route_id=17, route_stop_id=196, vehicle_id=5, eta_s=120.0),
+            StopArrival(route_id=17, route_stop_id=418, vehicle_id=5, eta_s=180.0),
+        ]
+        with patch("app.routing.router.get_arrivals", return_value=arrivals):
+            plan = plan_trip(board.loc, dest, None)
+        self.assertEqual(plan.best.kind, "bus")
+        self.assertEqual(plan.best.route_id, 17)
+        self.assertEqual(plan.best.board_stop.route_stop_id, 196)
+        self.assertEqual(plan.best.alight_stop.route_stop_id, 418)
+        self.assertEqual(plan.best.ride_s, 60.0)
+        self.assertGreater(_forward_s(catalog, 17, 196, 418), 200.0)
+
+        board_only = [StopArrival(route_id=17, route_stop_id=196, vehicle_id=5, eta_s=120.0)]
+        with patch("app.routing.router.get_arrivals", return_value=board_only):
+            walked = plan_trip(board.loc, dest, None)
+        self.assertEqual(walked.best.kind, "walk")
+        self.assertEqual(walked.notes, [NO_BUS_NOTE])

@@ -14,7 +14,8 @@ from math import asin, cos, radians, sin, sqrt
 from pathlib import Path
 
 from app.data import clock
-from app.data.sources import get_arrivals, mode
+from app.data.clock import ROUTE_RED
+from app.data.sources import get_arrivals, mode, ride_seconds
 from app.models import LatLng, Place, Stop, StopArrival, TripOption, TripPlan
 from app.routing.params import (
     ALIGHT_RADIUS_M,
@@ -34,6 +35,10 @@ from app.routing.params import (
 _DATA = Path(__file__).resolve().parents[1] / "data"
 _BUS_MPS = 6.0
 _SLIP_OK = {"on_time", "slightly_late", "significantly_late", "unknown"}
+
+SHORT_TRIP_NOTE = "Walk only: origin and destination are under 250 m apart."
+NO_BUS_NOTE = "Walk only: no bus serves this trip."
+FAR_NOTE = "Origin is over 3 km from campus center; confirm the location."
 
 
 def haversine_m(a: LatLng, b: LatLng) -> float:
@@ -172,19 +177,23 @@ def _bus_options(origin: LatLng, dest: Place, now: datetime, arrivals: list[Stop
                     continue
                 walk_from = walk_s(alight.loc, dest.loc)
                 for etas in vehicles.values():
-                    positive = [(stop_id, eta) for stop_id, eta in etas.items() if eta >= 0]
-                    if not positive:
-                        continue
-                    next_id, next_eta = min(positive, key=lambda item: item[1])
-                    if route_id != 20 and board.route_stop_id in etas:
-                        board_eta = etas[board.route_stop_id]
-                        if alight.route_stop_id in etas and etas[alight.route_stop_id] > board_eta:
-                            ride = etas[alight.route_stop_id] - board_eta
-                        else:
-                            ride = segment_ride
-                    else:
+                    if route_id == ROUTE_RED:
+                        positive = [(stop_id, eta) for stop_id, eta in etas.items() if eta >= 0]
+                        if not positive:
+                            continue
+                        next_id, next_eta = min(positive, key=lambda item: item[1])
                         board_eta = next_eta + _forward_s(stops, route_id, next_id, board.route_stop_id)
                         ride = segment_ride
+                    else:
+                        # Green/Gold: only ETA(alight) - ETA(board). No segment fallback.
+                        ride = ride_seconds(
+                            route_id,
+                            etas.get(board.route_stop_id),
+                            etas.get(alight.route_stop_id),
+                        )
+                        if ride is None:
+                            continue
+                        board_eta = etas[board.route_stop_id]
                     if board_eta < walk_to + CATCH_MARGIN_S or board_eta > MAX_WAIT_S or ride <= 0:
                         continue
                     option = TripOption(
@@ -227,10 +236,17 @@ def plan_trip(origin: LatLng, dest: Place, deadline: datetime | None = None) -> 
     """Earliest of the direct buses and the walk. Far origins still get a plan."""
     now = clock.now()
     walking = _walk_option(origin, dest, now)
+    short = haversine_m(origin, dest.loc) < WALK_ONLY_M
     buses: list[TripOption] = []
-    if haversine_m(origin, dest.loc) >= WALK_ONLY_M:
+    if not short:
         buses = _bus_options(origin, dest, now, get_arrivals())
-    _ = far_from_campus(origin)
+    notes: list[str] = []
+    if short:
+        notes.append(SHORT_TRIP_NOTE)
+    elif not buses:
+        notes.append(NO_BUS_NOTE)
+    if far_from_campus(origin):
+        notes.append(FAR_NOTE)
     ranked = sorted([walking, *buses], key=lambda option: option.arrive_at)
     best = ranked[0]
     alternatives = [option for option in ranked if option is not best and option is not walking][:2]
@@ -244,4 +260,5 @@ def plan_trip(origin: LatLng, dest: Place, deadline: datetime | None = None) -> 
         alternatives=alternatives,
         verdict=_verdict(best, deadline),  # type: ignore[arg-type]
         mode=mode(),  # type: ignore[arg-type]
+        notes=notes,
     )

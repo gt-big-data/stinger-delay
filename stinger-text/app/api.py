@@ -105,6 +105,7 @@ def plan(body: PlanIn):
         "walk": _option_json(trip.walk),
         "alternatives": [_option_json(item) for item in trip.alternatives],
         "delayPredictions": _delays(trip.best),
+        "notes": list(trip.notes),
     }
 
 

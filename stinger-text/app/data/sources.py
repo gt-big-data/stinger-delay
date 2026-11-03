@@ -193,6 +193,20 @@ def replay_arrivals() -> list[StopArrival]:
     return rows
 
 
+def ride_seconds(route_id: int, board_eta_s: float | None, alight_eta_s: float | None) -> float | None:
+    """Green and Gold ride time when both stop ETAs exist.
+
+    Red does not use this. Its ride time is the median segment run from the
+    board stop to the alight stop, added to the next-stop ETA in the router.
+    """
+    if route_id == ROUTE_RED or board_eta_s is None or alight_eta_s is None:
+        return None
+    ride = alight_eta_s - board_eta_s
+    if ride <= 0:
+        return None
+    return ride
+
+
 def parse_live(payload) -> list[StopArrival]:
     rows: list[StopArrival] = []
     if not isinstance(payload, list):

@@ -68,6 +68,7 @@ class TripPlan:
     alternatives: list[TripOption]
     verdict: Literal["MAKE_IT", "TIGHT", "WONT_MAKE_IT", "NO_DEADLINE"]
     mode: Literal["LIVE", "REPLAY"]
+    notes: list[str] = field(default_factory=list)
 
 
 @dataclass
