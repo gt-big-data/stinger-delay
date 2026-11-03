@@ -4,12 +4,23 @@ from __future__ import annotations
 
 import json
 import unittest
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
+from unittest.mock import patch
 
 from app.data import clock
 from app.data.clock import ROUTE_GOLD, ROUTE_GREEN, ROUTE_RED, TZ
-from app.data.sources import get_arrivals, parse_live, record_poll_failure, reset_state, ride_seconds
+from app.data.sources import (
+    get_arrivals,
+    parse_live,
+    poll_once,
+    record_poll_failure,
+    record_poll_success,
+    reset_state,
+    ride_seconds,
+)
+from app.models import StopArrival
 
 
 class SourcesTests(unittest.TestCase):
@@ -69,6 +80,112 @@ class SourcesTests(unittest.TestCase):
         self.assertEqual(clock.mode(), "LIVE")
         record_poll_failure()
         self.assertEqual(clock.mode(), "REPLAY")
+        # Failover anchors replay at the live weekday and minute, not the default noon.
+        self.assertEqual(clock.now().strftime("%a %H:%M"), "Tue 15:00")
+        self.assertEqual(clock.now().date().isoformat(), "2026-03-03")
+
+        # A new live session needs three fresh failures. The old streak does not carry.
+        clock.set_live()
+        record_poll_failure()
+        record_poll_failure()
+        self.assertEqual(clock.mode(), "LIVE")
+        record_poll_failure()
+        self.assertEqual(clock.mode(), "REPLAY")
+
+    def test_success_and_replay_gap_reset_the_streak(self) -> None:
+        clock.set_live()
+        record_poll_failure()
+        record_poll_failure()
+        record_poll_success([])
+        record_poll_failure()
+        record_poll_failure()
+        self.assertEqual(clock.mode(), "LIVE")
+
+        clock.set_demo("Tue", "12:00")
+        record_poll_failure()
+        record_poll_failure()
+        record_poll_failure()
+        self.assertEqual(clock.mode(), "REPLAY")
+        clock.set_live()
+        record_poll_failure()
+        record_poll_failure()
+        self.assertEqual(clock.mode(), "LIVE")
+
+    def test_poll_once_flips_and_message_path_keeps_the_cache(self) -> None:
+        clock.set_live()
+        planted = [StopArrival(ROUTE_RED, 268, 99999, 15.0)]
+        record_poll_success(planted)
+        with patch("app.data.sources.ensure_poller") as poller, patch(
+            "app.data.sources._fetch_live", side_effect=OSError("feed down")
+        ) as fetch:
+            self.assertEqual(get_arrivals(), planted)
+            poller.assert_called()
+            fetch.assert_not_called()
+
+            poll_once()
+            poll_once()
+            self.assertEqual(clock.mode(), "LIVE")
+            self.assertEqual(get_arrivals()[0].vehicle_id, 99999)
+            self.assertEqual(fetch.call_count, 2)
+
+            poll_once()
+            self.assertEqual(clock.mode(), "REPLAY")
+            self.assertEqual(clock.now().strftime("%a %H:%M"), "Tue 15:00")
+            rows = get_arrivals()
+            fetch.assert_called()
+            self.assertEqual(fetch.call_count, 3)
+            self.assertTrue(rows)
+            self.assertNotIn(99999, {row.vehicle_id for row in rows})
+            self.assertIn(ROUTE_RED, {row.route_id for row in rows})
+            self.assertNotIn(ROUTE_GOLD, {row.route_id for row in rows})
+
+        clock.set_live()
+        live_rows = [StopArrival(ROUTE_GOLD, 410, 35, 40.0)]
+        with patch("app.data.sources.ensure_poller"), patch(
+            "app.data.sources._fetch_live", return_value=live_rows
+        ) as fetch:
+            # The message path still has the last live cache and does not call the feed.
+            self.assertEqual(get_arrivals()[0].vehicle_id, 99999)
+            fetch.assert_not_called()
+            poll_once()
+            self.assertEqual(fetch.call_count, 1)
+            self.assertEqual(get_arrivals(), live_rows)
+            self.assertEqual(fetch.call_count, 1)
+            self.assertEqual(clock.mode(), "LIVE")
+            clock.set_demo("Tue", "12:00")
+            poll_once()
+            self.assertEqual(fetch.call_count, 1)
+            self.assertEqual(clock.mode(), "REPLAY")
+
+    def test_readme_and_fixture_shape(self) -> None:
+        path = Path(__file__).resolve().parents[1] / "fixtures" / "feed_arrivals.json"
+        payload = json.loads(path.read_text())
+        self.assertIsInstance(payload, list)
+        self.assertEqual(len(payload), 63)
+        self.assertEqual(Counter(entry["RouteID"] for entry in payload), {20: 18, 29: 21, 21: 13, 28: 11})
+        for entry in payload:
+            self.assertIsInstance(entry["RouteStopID"], int)
+            estimates = entry["VehicleEstimates"]
+            self.assertIsInstance(estimates, list)
+            self.assertTrue(estimates)
+            for estimate in estimates:
+                self.assertIsInstance(estimate["VehicleID"], int)
+                self.assertIsInstance(estimate["SecondsToStop"], int)
+                self.assertGreaterEqual(estimate["SecondsToStop"], 0)
+
+        readme = (Path(__file__).resolve().parents[1] / "README.md").read_text()
+        for phrase in (
+            "fixtures/feed_arrivals.json",
+            "bus.gatech.edu",
+            "gatech.transloc.com",
+            "GetRouteStopArrivals",
+            "63 stop",
+            "one ETA",
+            "fresh streak",
+            "requirements.txt",
+            "python3 -m unittest discover -s tests -v",
+        ):
+            self.assertIn(phrase, readme)
 
     def test_fixture_feed_drops_clough_and_blue(self) -> None:
         path = Path(__file__).resolve().parents[1] / "fixtures" / "feed_arrivals.json"

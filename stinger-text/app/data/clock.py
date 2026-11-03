@@ -202,6 +202,7 @@ class DemoClock:
     def __init__(self, wall: Optional[Callable[[], datetime]] = None):
         self._wall = wall or _system_wall
         self._mode: Mode = "REPLAY"
+        self._epoch = 0
         self._anchor = _at(date(2026, 3, 3), time(12, 0))
         self._set_at = _as_ny(self._wall())
         self._route_dates: dict[int, Optional[date]] = {route_id: None for route_id in ROUTE_IDS}
@@ -209,6 +210,10 @@ class DemoClock:
 
     def mode(self) -> Mode:
         return self._mode
+
+    def epoch(self) -> int:
+        """Increments on every ``set_live`` / ``set_demo``. Live polls key off this."""
+        return self._epoch
 
     def now(self) -> datetime:
         if self._mode == "LIVE":
@@ -218,6 +223,7 @@ class DemoClock:
     def set_live(self) -> None:
         self._mode = "LIVE"
         self._set_at = _as_ny(self._wall())
+        self._epoch += 1
 
     def set_demo(self, weekday: str, hhmm: str) -> datetime:
         """Enter replay at ``weekday`` ``hhmm`` and return the anchor instant."""
@@ -235,6 +241,7 @@ class DemoClock:
         self._anchor = _at(anchor_day, tod)
         self._set_at = _as_ny(self._wall())
         self._route_dates = route_dates
+        self._epoch += 1
         return self._anchor
 
     def route_time(self, route_id: int) -> Optional[datetime]:
@@ -288,6 +295,10 @@ def now() -> datetime:
 
 def mode() -> Mode:
     return _clock().mode()
+
+
+def epoch() -> int:
+    return _clock().epoch()
 
 
 def set_demo(weekday: str, hhmm: str) -> datetime:

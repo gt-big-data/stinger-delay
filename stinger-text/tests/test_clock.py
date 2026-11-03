@@ -112,6 +112,16 @@ class ClockTests(unittest.TestCase):
         self.assertEqual(anchor.strftime("%a %H:%M"), "Tue 12:00")
         self.assertEqual(clock.now(), anchor)
 
+    def test_epoch_advances_even_when_the_wall_clock_is_frozen(self) -> None:
+        wall, _advance = _frozen_wall()
+        clock = DemoClock(wall=wall)
+        opened = clock.epoch()
+        clock.set_live()
+        clock.set_live()
+        self.assertEqual(clock.epoch(), opened + 2)
+        clock.set_demo("Tue", "12:00")
+        self.assertGreater(clock.epoch(), opened + 2)
+
     def test_gap_time_has_no_service(self) -> None:
         wall, _advance = _frozen_wall()
         clock = DemoClock(wall=wall)

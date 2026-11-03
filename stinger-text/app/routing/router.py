@@ -185,7 +185,8 @@ def _bus_options(origin: LatLng, dest: Place, now: datetime, arrivals: list[Stop
                         board_eta = next_eta + _forward_s(stops, route_id, next_id, board.route_stop_id)
                         ride = segment_ride
                     else:
-                        # Green/Gold: only ETA(alight) - ETA(board). No segment fallback.
+                        # Green/Gold need both ETAs on this vehicle. One ETA,
+                        # an inverted pair, or another vehicle's ETA is not a ride.
                         ride = ride_seconds(
                             route_id,
                             etas.get(board.route_stop_id),

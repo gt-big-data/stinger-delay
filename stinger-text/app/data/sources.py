@@ -3,6 +3,9 @@
 Message handling calls ``get_arrivals()`` only. That reads the last poll
 when the clock is live, and the recorded frame from ``clock.replay_frame``
 in replay. The feed itself is touched only by the background poller.
+
+Three consecutive failures in the current live session flip the clock to
+replay. A successful poll, ``set_live``, or ``set_demo`` starts a fresh streak.
 """
 
 from __future__ import annotations
@@ -26,6 +29,7 @@ _WEEKDAY = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
 _frames: dict[tuple[int, int], list[StopArrival]] | None = None
 _failures = 0
+_seen_epoch = -1
 _cache: list[StopArrival] = []
 _lock = threading.Lock()
 _poller: threading.Thread | None = None
@@ -194,7 +198,11 @@ def replay_arrivals() -> list[StopArrival]:
 
 
 def ride_seconds(route_id: int, board_eta_s: float | None, alight_eta_s: float | None) -> float | None:
-    """Green and Gold ride time when both stop ETAs exist.
+    """Green and Gold ride time when both stop ETAs exist on one vehicle.
+
+    A missing board ETA, a missing alight ETA, or an alight ETA that is not
+    later than the board ETA returns None. Callers skip that vehicle. They
+    do not fill the gap from segment medians or from another vehicle's ETA.
 
     Red does not use this. Its ride time is the median segment run from the
     board stop to the alight stop, added to the next-stop ETA in the router.
@@ -246,10 +254,26 @@ def _flip_to_replay() -> None:
     clock.set_demo(_WEEKDAY[current.weekday()], f"{current.hour:02d}:{current.minute:02d}")
 
 
+def _sync_epoch_locked() -> None:
+    """A new ``set_live`` / ``set_demo`` starts the failure streak at zero."""
+    global _seen_epoch, _failures
+    current = clock.epoch()
+    if current != _seen_epoch:
+        _failures = 0
+        _seen_epoch = current
+
+
 def record_poll_failure() -> None:
-    """Count a failed live poll. The third consecutive failure returns the clock to replay."""
+    """Count a failed live poll. The third consecutive failure returns the clock to replay.
+
+    The count is consecutive failures inside one live session. ``set_live`` and
+    ``set_demo`` start a fresh streak. A successful poll clears it too.
+    """
     global _failures
     with _lock:
+        _sync_epoch_locked()
+        if clock.mode() != "LIVE":
+            return
         _failures += 1
         failed = _failures
     if failed >= 3 and clock.mode() == "LIVE":
@@ -259,17 +283,26 @@ def record_poll_failure() -> None:
 def record_poll_success(rows: list[StopArrival]) -> None:
     global _failures, _cache
     with _lock:
+        _sync_epoch_locked()
         _failures = 0
         _cache = list(rows)
 
 
+def poll_once() -> None:
+    """One live poll. Replay mode does not touch the feed."""
+    if clock.mode() != "LIVE":
+        with _lock:
+            _sync_epoch_locked()
+        return
+    try:
+        record_poll_success(_fetch_live())
+    except Exception:
+        record_poll_failure()
+
+
 def _poll_loop() -> None:
     while not _stop.is_set():
-        if clock.mode() == "LIVE":
-            try:
-                record_poll_success(_fetch_live())
-            except Exception:
-                record_poll_failure()
+        poll_once()
         if _stop.wait(20):
             break
 
@@ -285,12 +318,11 @@ def ensure_poller() -> None:
 
 def get_arrivals() -> list[StopArrival]:
     """Cached live rows, or the replay frame for the demo clock. Does not call the feed."""
-    global _live_armed, _failures
+    global _live_armed
+    with _lock:
+        _sync_epoch_locked()
     if clock.mode() == "LIVE":
-        if not _live_armed:
-            with _lock:
-                _failures = 0
-            _live_armed = True
+        _live_armed = True
         ensure_poller()
         with _lock:
             return list(_cache)
@@ -298,10 +330,22 @@ def get_arrivals() -> list[StopArrival]:
     return replay_arrivals()
 
 
+def stop_poller() -> None:
+    """Stop the background poll, if this thread started it."""
+    global _poller
+    _stop.set()
+    poller = _poller
+    if poller is not None and poller.is_alive() and threading.current_thread() is not poller:
+        poller.join(timeout=2)
+    _poller = None
+
+
 def reset_state() -> None:
     """Clear live-poll bookkeeping. Replay frames stay cached."""
-    global _failures, _cache, _live_armed
+    global _failures, _seen_epoch, _cache, _live_armed
+    stop_poller()
     with _lock:
         _failures = 0
+        _seen_epoch = -1
         _cache = []
         _live_armed = False
