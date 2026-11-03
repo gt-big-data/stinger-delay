@@ -20,7 +20,7 @@ def test_tool_enums_built_from_places_json():
         assert pid in dest_enum and pid in origin_enum
     assert dest_enum[-1] == "UNKNOWN" and "PIN" not in dest_enum
     assert origin_enum[0] == "PIN" and origin_enum[-1] == "UNKNOWN"
-    assert params["deadline_hhmm"]["type"] == ["string", "null"]
+    assert {"type": "null"} in params["deadline_hhmm"]["anyOf"]
 
 
 def test_round1_parses_valid_call_and_passes_context():
@@ -111,3 +111,9 @@ def test_missing_key_raises(monkeypatch):
     monkeypatch.delenv("XAI_API_KEY", raising=False)
     with pytest.raises(GrokError):
         GrokClient()
+
+
+def test_midnight_placeholder_means_no_deadline():
+    from app.core.grok import validate_args
+    assert validate_args({"destination_place_id": "klaus", "origin_place_id": "PIN", "deadline_hhmm": "00:00"}).deadline_hhmm is None
+    assert validate_args({"destination_place_id": "klaus", "origin_place_id": "PIN", "deadline_hhmm": "12:15"}).deadline_hhmm == "12:15"

@@ -23,7 +23,7 @@ from __future__ import annotations
 import logging
 import os
 import threading
-from datetime import datetime, time as dtime
+from datetime import datetime, time as dtime, timedelta
 from difflib import SequenceMatcher
 from typing import Optional
 
@@ -223,7 +223,12 @@ def _deadline_dt(hhmm: Optional[str], now: datetime) -> Optional[datetime]:
     if not hhmm:
         return None
     h, m = int(hhmm[:2]), int(hhmm[3:])
-    return datetime.combine(now.date(), dtime(h, m), tzinfo=now.tzinfo)
+    deadline = datetime.combine(now.date(), dtime(h, m), tzinfo=now.tzinfo)
+    # A time long past (a "9:30" asked at 22:00) means tomorrow; one just missed stays today
+    # so the verdict is WON'T MAKE IT instead of a free day of slack.
+    if deadline < now - timedelta(hours=1):
+        deadline += timedelta(days=1)
+    return deadline
 
 
 def _round2(intent: Intent, plan: TripPlan) -> str:

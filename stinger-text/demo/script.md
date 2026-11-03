@@ -40,7 +40,7 @@ Expected reply shape:
 
 Say: "It read the pin, found the nearest Red stop, and checked the 12:15 deadline in Python. Grok only wrote the sentence."
 
-Actual: _(fill in at rehearsal)_
+Actual (dry-run, live Grok, 8:55 PM Nov 2): `TIGHT. Walk 15 min, arrive West Village 12:14. Walking takes 15 min. [REPLAY Tue 3 Mar 12:00]`
 
 ## Scene 2: Walk wins
 
@@ -56,9 +56,9 @@ Expected reply shape:
 
 Say: "It doesn't push the bus. If walking is faster, it says so."
 
-**Risk:** the C1 stub router says the bus wins for Student Center (bus 12:05 vs walk 12:07). This scene depends on B's real stops. If B6b still prefers the bus, use a closer destination such as CULC or the Library.
+Checked against B's real router: walking wins for Student Center at Tue 12:00.
 
-Actual: _(fill in at rehearsal)_
+Actual (dry-run, live Grok, 8:55 PM Nov 2): `JUST WALK. Walking is fastest: 8 min, arrive John Lewis Student Center 12:07. No useful bus right now. [REPLAY Tue 3 Mar 12:00]`
 
 ## Scene 3: Class deadline (landmark origin)
 
@@ -74,7 +74,7 @@ Expected reply shape:
 
 Say: "Grok turned 'my 9:30 in Klaus' into a place ID and 09:30. The verdict includes a rough slip estimate from the recorded data."
 
-Actual: _(fill in at rehearsal)_
+Actual (dry-run, live Grok, 8:55 PM Nov 2): `WON'T MAKE IT. Walk 1 min to North Avenue Apts stop, Red bus in 4 min, arrive Klaus 09:34. Walking takes 16 min. [REPLAY Tue 3 Mar 09:20]`
 
 ## Scene 4: Night
 
@@ -90,7 +90,7 @@ Expected reply shape:
 
 Say: "At night, knowing whether the bus is 3 or 18 minutes away decides whether you wait alone at a stop. We state the wait plainly and don't judge whether walking is safe."
 
-Actual: _(fill in at rehearsal)_
+Actual (dry-run, live Grok, 8:55 PM Nov 2): `JUST WALK. Walking is fastest: 15 min, arrive West Village 22:54. Next Gold bus in 15 min, arrives 23:05. [REPLAY Tue 3 Mar 22:40]`
 
 ## After the demo
 
