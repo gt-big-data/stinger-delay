@@ -1,0 +1,343 @@
+[
+  {
+    "id": "klaus",
+    "name": "Klaus Advanced Computing Building",
+    "lat": 33.7771562,
+    "lng": -84.3962024,
+    "aliases": [
+      "klaus",
+      "kab",
+      "klaus building",
+      "klaus advanced computing",
+      "christopher klaus building"
+    ]
+  },
+  {
+    "id": "culc",
+    "name": "Clough Undergraduate Learning Commons",
+    "lat": 33.7746495,
+    "lng": -84.3964166,
+    "aliases": [
+      "culc",
+      "the culc",
+      "clough commons",
+      "learning commons"
+    ]
+  },
+  {
+    "id": "college_of_computing",
+    "name": "College of Computing Building",
+    "lat": 33.777353,
+    "lng": -84.3973721,
+    "aliases": [
+      "coc",
+      "college of computing",
+      "coc building",
+      "cc building"
+    ]
+  },
+  {
+    "id": "crc",
+    "name": "Campus Recreation Center",
+    "lat": 33.7755327,
+    "lng": -84.4039597,
+    "aliases": [
+      "crc",
+      "campus rec",
+      "rec center",
+      "the gym",
+      "gym",
+      "mcauley aquatic center",
+      "crc gym"
+    ]
+  },
+  {
+    "id": "student_center",
+    "name": "John Lewis Student Center",
+    "lat": 33.7741957,
+    "lng": -84.3988236,
+    "aliases": [
+      "student center",
+      "stucen",
+      "john lewis student center",
+      "the student center",
+      "sc"
+    ]
+  },
+  {
+    "id": "west_village",
+    "name": "West Village",
+    "lat": 33.7793586,
+    "lng": -84.4048503,
+    "aliases": [
+      "west village",
+      "wv",
+      "westvillage",
+      "west village dining",
+      "wv dining"
+    ]
+  },
+  {
+    "id": "north_ave_apts",
+    "name": "North Avenue Apartments",
+    "lat": 33.7694037,
+    "lng": -84.3918207,
+    "aliases": [
+      "north ave",
+      "north ave apts",
+      "north avenue apartments",
+      "na apartments",
+      "nav",
+      "north ave apartments",
+      "nava"
+    ]
+  },
+  {
+    "id": "tech_square",
+    "name": "Technology Square",
+    "lat": 33.7756452,
+    "lng": -84.3895517,
+    "aliases": [
+      "tech square",
+      "tech sq",
+      "techsquare",
+      "5th street",
+      "scheller",
+      "barnes and noble"
+    ]
+  },
+  {
+    "id": "library",
+    "name": "Georgia Tech Library (Price Gilbert / Crosland Tower)",
+    "lat": 33.7743977,
+    "lng": -84.3957785,
+    "aliases": [
+      "library",
+      "the library",
+      "price gilbert",
+      "crosland",
+      "crosland tower",
+      "gt library"
+    ]
+  },
+  {
+    "id": "skiles",
+    "name": "Skiles Classroom Building",
+    "lat": 33.7735678,
+    "lng": -84.3959406,
+    "aliases": [
+      "skiles",
+      "skiles building",
+      "skiles classroom"
+    ]
+  },
+  {
+    "id": "howey",
+    "name": "Howey Physics Building",
+    "lat": 33.7774399,
+    "lng": -84.3986777,
+    "aliases": [
+      "howey",
+      "howey physics",
+      "physics building"
+    ]
+  },
+  {
+    "id": "van_leer",
+    "name": "Van Leer Building",
+    "lat": 33.7759831,
+    "lng": -84.397144,
+    "aliases": [
+      "van leer",
+      "vl",
+      "ece building",
+      "vanleer"
+    ]
+  },
+  {
+    "id": "clough",
+    "name": "Clough Commons (same building as CULC)",
+    "lat": 33.7746495,
+    "lng": -84.3964166,
+    "aliases": [
+      "clough",
+      "clough building",
+      "clough commons"
+    ]
+  },
+  {
+    "id": "kendeda",
+    "name": "Kendeda Building",
+    "lat": 33.7786705,
+    "lng": -84.399532,
+    "aliases": [
+      "kendeda",
+      "kendeda building",
+      "living building"
+    ]
+  },
+  {
+    "id": "east_campus",
+    "name": "East Campus (Brittain Dining Hall)",
+    "lat": 33.7724322,
+    "lng": -84.391313,
+    "aliases": [
+      "east campus",
+      "ec",
+      "brittain",
+      "brittain dining",
+      "east campus dorms"
+    ]
+  },
+  {
+    "id": "ferst_center",
+    "name": "Ferst Center for the Arts",
+    "lat": 33.7751186,
+    "lng": -84.3992142,
+    "aliases": [
+      "ferst center",
+      "ferst",
+      "ferst center for the arts"
+    ]
+  },
+  {
+    "id": "bobby_dodd",
+    "name": "Bobby Dodd Stadium",
+    "lat": 33.772476,
+    "lng": -84.3929589,
+    "aliases": [
+      "bobby dodd",
+      "the stadium",
+      "stadium",
+      "bds",
+      "grant field",
+      "football stadium"
+    ]
+  },
+  {
+    "id": "midtown_marta",
+    "name": "Midtown MARTA Station",
+    "lat": 33.7811155,
+    "lng": -84.3864315,
+    "aliases": [
+      "midtown marta",
+      "marta",
+      "midtown station",
+      "midtown"
+    ]
+  },
+  {
+    "id": "tech_tower",
+    "name": "Tech Tower",
+    "lat": 33.7724961,
+    "lng": -84.3946737,
+    "aliases": [
+      "tech tower",
+      "evans building",
+      "tower"
+    ]
+  },
+  {
+    "id": "exhibition_hall",
+    "name": "Exhibition Hall",
+    "lat": 33.7745974,
+    "lng": -84.4016454,
+    "aliases": [
+      "exhibition hall",
+      "exhibition",
+      "ex hall"
+    ]
+  },
+  {
+    "id": "mrdc",
+    "name": "Manufacturing Related Disciplines Complex",
+    "lat": 33.7769757,
+    "lng": -84.4005832,
+    "aliases": [
+      "mrdc",
+      "mrdc building",
+      "manufacturing building"
+    ]
+  },
+  {
+    "id": "coda",
+    "name": "Coda",
+    "lat": 33.7754968,
+    "lng": -84.3876768,
+    "aliases": [
+      "coda",
+      "coda building",
+      "coda tower"
+    ]
+  },
+  {
+    "id": "mccamish",
+    "name": "McCamish Pavilion",
+    "lat": 33.7806025,
+    "lng": -84.3927616,
+    "aliases": [
+      "mccamish",
+      "mccamish pavilion",
+      "coliseum",
+      "alexander memorial coliseum",
+      "the thrillerdome"
+    ]
+  },
+  {
+    "id": "nave",
+    "name": "North Avenue Dining Hall",
+    "lat": 33.7710443,
+    "lng": -84.3913365,
+    "aliases": [
+      "nave",
+      "north ave dining",
+      "north avenue dining hall",
+      "nav dining"
+    ]
+  },
+  {
+    "id": "boggs",
+    "name": "Boggs Chemistry Building",
+    "lat": 33.7756576,
+    "lng": -84.3998138,
+    "aliases": [
+      "boggs",
+      "boggs building",
+      "chemistry building"
+    ]
+  },
+  {
+    "id": "ebb",
+    "name": "Engineered Biosystems Building",
+    "lat": 33.7808082,
+    "lng": -84.3984132,
+    "aliases": [
+      "ebb",
+      "engineered biosystems",
+      "krone ebb"
+    ]
+  },
+  {
+    "id": "es_and_t",
+    "name": "Ford Environmental Science & Technology Building",
+    "lat": 33.7788415,
+    "lng": -84.3959558,
+    "aliases": [
+      "es&t",
+      "est",
+      "es and t",
+      "ford building",
+      "environmental science and technology"
+    ]
+  },
+  {
+    "id": "tsrb",
+    "name": "Technology Square Research Building",
+    "lat": 33.7773841,
+    "lng": -84.3900976,
+    "aliases": [
+      "tsrb",
+      "tech square research building"
+    ]
+  }
+]

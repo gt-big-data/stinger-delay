@@ -1,0 +1,8 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iPhone OS 17.0//EN
+N:User;Test;;;
+FN:Test User
+item1.URL;type=pref:http://maps.apple.com/?ll=33.77720\,-84.39560&q=33.77720\,-84.39560&t=m
+item1.X-ABLabel:map url
+END:VCARD

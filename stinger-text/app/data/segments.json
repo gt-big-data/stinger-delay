@@ -1,0 +1,302 @@
+{
+  "20": [
+    {
+      "from_route_stop_id": 250,
+      "to_route_stop_id": 264,
+      "median_s": 251.0,
+      "n": 221
+    },
+    {
+      "from_route_stop_id": 264,
+      "to_route_stop_id": 265,
+      "median_s": 65.0,
+      "n": 218
+    },
+    {
+      "from_route_stop_id": 265,
+      "to_route_stop_id": 266,
+      "median_s": 95.0,
+      "n": 219
+    },
+    {
+      "from_route_stop_id": 266,
+      "to_route_stop_id": 267,
+      "median_s": 91.0,
+      "n": 221
+    },
+    {
+      "from_route_stop_id": 267,
+      "to_route_stop_id": 268,
+      "median_s": 62.0,
+      "n": 222
+    },
+    {
+      "from_route_stop_id": 268,
+      "to_route_stop_id": 269,
+      "median_s": 82.0,
+      "n": 221
+    },
+    {
+      "from_route_stop_id": 269,
+      "to_route_stop_id": 270,
+      "median_s": 62.0,
+      "n": 222
+    },
+    {
+      "from_route_stop_id": 270,
+      "to_route_stop_id": 274,
+      "median_s": 85.0,
+      "n": 222
+    },
+    {
+      "from_route_stop_id": 274,
+      "to_route_stop_id": 272,
+      "median_s": 67.0,
+      "n": 178
+    },
+    {
+      "from_route_stop_id": 272,
+      "to_route_stop_id": 273,
+      "median_s": 258.5,
+      "n": 180
+    },
+    {
+      "from_route_stop_id": 273,
+      "to_route_stop_id": 271,
+      "median_s": 84.0,
+      "n": 183
+    },
+    {
+      "from_route_stop_id": 271,
+      "to_route_stop_id": 275,
+      "median_s": 68.0,
+      "n": 180
+    },
+    {
+      "from_route_stop_id": 275,
+      "to_route_stop_id": 276,
+      "median_s": 100.5,
+      "n": 220
+    },
+    {
+      "from_route_stop_id": 276,
+      "to_route_stop_id": 277,
+      "median_s": 66.0,
+      "n": 219
+    },
+    {
+      "from_route_stop_id": 277,
+      "to_route_stop_id": 278,
+      "median_s": 122.0,
+      "n": 220
+    },
+    {
+      "from_route_stop_id": 278,
+      "to_route_stop_id": 279,
+      "median_s": 83.5,
+      "n": 214
+    },
+    {
+      "from_route_stop_id": 279,
+      "to_route_stop_id": 280,
+      "median_s": 136.5,
+      "n": 220
+    },
+    {
+      "from_route_stop_id": 280,
+      "to_route_stop_id": 250,
+      "median_s": 50.0,
+      "n": 221
+    }
+  ],
+  "17": [
+    {
+      "from_route_stop_id": 195,
+      "to_route_stop_id": 196,
+      "median_s": 60.0,
+      "n": 82
+    },
+    {
+      "from_route_stop_id": 196,
+      "to_route_stop_id": 208,
+      "median_s": 216.0,
+      "n": 84
+    },
+    {
+      "from_route_stop_id": 208,
+      "to_route_stop_id": 418,
+      "median_s": 75.0,
+      "n": 83
+    },
+    {
+      "from_route_stop_id": 418,
+      "to_route_stop_id": 206,
+      "median_s": 75.0,
+      "n": 82
+    },
+    {
+      "from_route_stop_id": 206,
+      "to_route_stop_id": 209,
+      "median_s": 112.5,
+      "n": 52
+    },
+    {
+      "from_route_stop_id": 209,
+      "to_route_stop_id": 210,
+      "median_s": 75.0,
+      "n": 112
+    },
+    {
+      "from_route_stop_id": 210,
+      "to_route_stop_id": 211,
+      "median_s": 30.0,
+      "n": 109
+    },
+    {
+      "from_route_stop_id": 211,
+      "to_route_stop_id": 212,
+      "median_s": 195.0,
+      "n": 82
+    },
+    {
+      "from_route_stop_id": 212,
+      "to_route_stop_id": 213,
+      "median_s": 60.0,
+      "n": 82
+    },
+    {
+      "from_route_stop_id": 213,
+      "to_route_stop_id": 195,
+      "median_s": 120.0,
+      "n": 82
+    }
+  ],
+  "29": [
+    {
+      "from_route_stop_id": 419,
+      "to_route_stop_id": 420,
+      "median_s": 240.0,
+      "n": 29
+    },
+    {
+      "from_route_stop_id": 420,
+      "to_route_stop_id": 407,
+      "median_s": 90.0,
+      "n": 30
+    },
+    {
+      "from_route_stop_id": 407,
+      "to_route_stop_id": 408,
+      "median_s": 150.0,
+      "n": 31
+    },
+    {
+      "from_route_stop_id": 408,
+      "to_route_stop_id": 409,
+      "median_s": 120.0,
+      "n": 29
+    },
+    {
+      "from_route_stop_id": 409,
+      "to_route_stop_id": 410,
+      "median_s": 60.0,
+      "n": 28
+    },
+    {
+      "from_route_stop_id": 410,
+      "to_route_stop_id": 399,
+      "median_s": 120.0,
+      "n": 29
+    },
+    {
+      "from_route_stop_id": 399,
+      "to_route_stop_id": 400,
+      "median_s": 90.0,
+      "n": 31
+    },
+    {
+      "from_route_stop_id": 400,
+      "to_route_stop_id": 401,
+      "median_s": 90.0,
+      "n": 31
+    },
+    {
+      "from_route_stop_id": 401,
+      "to_route_stop_id": 402,
+      "median_s": 120.0,
+      "n": 30
+    },
+    {
+      "from_route_stop_id": 402,
+      "to_route_stop_id": 396,
+      "median_s": 180.0,
+      "n": 31
+    },
+    {
+      "from_route_stop_id": 396,
+      "to_route_stop_id": 404,
+      "median_s": 240.0,
+      "n": 32
+    },
+    {
+      "from_route_stop_id": 404,
+      "to_route_stop_id": 397,
+      "median_s": 240.0,
+      "n": 34
+    },
+    {
+      "from_route_stop_id": 397,
+      "to_route_stop_id": 398,
+      "median_s": 90.0,
+      "n": 36
+    },
+    {
+      "from_route_stop_id": 398,
+      "to_route_stop_id": 411,
+      "median_s": 90.0,
+      "n": 35
+    },
+    {
+      "from_route_stop_id": 411,
+      "to_route_stop_id": 412,
+      "median_s": 60.0,
+      "n": 32
+    },
+    {
+      "from_route_stop_id": 412,
+      "to_route_stop_id": 413,
+      "median_s": 60.0,
+      "n": 31
+    },
+    {
+      "from_route_stop_id": 413,
+      "to_route_stop_id": 415,
+      "median_s": 60.0,
+      "n": 32
+    },
+    {
+      "from_route_stop_id": 415,
+      "to_route_stop_id": 416,
+      "median_s": 90.0,
+      "n": 36
+    },
+    {
+      "from_route_stop_id": 416,
+      "to_route_stop_id": 417,
+      "median_s": 90.0,
+      "n": 31
+    },
+    {
+      "from_route_stop_id": 417,
+      "to_route_stop_id": 421,
+      "median_s": 90.0,
+      "n": 30
+    },
+    {
+      "from_route_stop_id": 421,
+      "to_route_stop_id": 419,
+      "median_s": 90.0,
+      "n": 30
+    }
+  ]
+}
