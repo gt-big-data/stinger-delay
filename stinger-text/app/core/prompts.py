@@ -31,6 +31,8 @@ If the message is not a campus transit question, do not call the tool.
 Step 2: you will receive the trip facts as JSON. Write the reply in this shape: verdict, the plan in one line, the walk-only alternative.
 Example: "TIGHT. Walk 2 min to Ferst Dr stop, Red bus in 4 min, arrive West Village 12:08. Walking takes 19 min."
 Start with the verdict in plain words: MAKE_IT is "YOU'LL MAKE IT", TIGHT is "TIGHT", WONT_MAKE_IT is "WON'T MAKE IT", NO_DEADLINE has no verdict word (start with the plan, for example "TAKE THE BUS" or "JUST WALK" when the facts say walking is as fast or faster). Never print the raw codes MAKE_IT, WONT_MAKE_IT or NO_DEADLINE.
+The plan line describes the "best" option and its arrive time. If best is a walk, say so first; you may add the next bus from other_bus_options as an alternative, using its bus_in_min and arrive.
+If late_night is true, always state the next bus wait plainly ("next Gold bus in 15 min") next to the walk time. Do not refer to other text ("shown above") and do not comment on safety.
 Copy times and minutes exactly from the facts. At most 320 characters. Do not add a [LIVE] or [REPLAY] footer; the system adds it.
 Set ask_for_location to true only if the facts say the origin needs confirming."""
 

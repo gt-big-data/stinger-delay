@@ -33,7 +33,7 @@ def test_check_reply_allows_12h_and_rejects_unknown_numbers():
     assert fallback.check_reply("Bus in 4 min, arrive 1:05. Walking takes 19 min.", facts)
     assert fallback.check_reply("Bus in 5 min, arrive 1:05.", facts) is None
     assert fallback.check_reply("Arrive 13:06.", facts) is None
-    assert fallback.check_reply("ok [LIVE]", facts) == "ok"
+    assert fallback.check_reply("Bus in 4 min, arrive 1:05. [LIVE]", facts) == "Bus in 4 min, arrive 1:05."
 
 
 def test_check_reply_verdict_must_match_plan():
@@ -42,3 +42,18 @@ def test_check_reply_verdict_must_match_plan():
     assert fallback.check_reply("WON'T MAKE IT. Red bus in 9 min, arrive 12:20. Walking takes 16 min.", facts)
     assert fallback.check_reply("YOU'LL MAKE IT. Red bus in 9 min, arrive 12:20.", facts) is None
     assert fallback.check_reply("WONT_MAKE_IT. Red bus in 9 min, arrive 12:20.", facts) is None
+
+
+def test_check_reply_must_describe_the_best_option():
+    facts = {"best": {"kind": "walk", "arrive": "12:14"}, "walk_only": {"minutes": 15, "arrive": "12:14"},
+             "other_bus_options": [{"kind": "bus", "bus_in_min": 7, "arrive": "12:16"}]}
+    assert fallback.check_reply("Walk 15 min, arrive 12:14. Next bus in 7 min, arrives 12:16.", facts)
+    assert fallback.check_reply("Red bus in 7 min, arrive 12:16. Walking takes 15 min.", facts) is None
+
+
+def test_check_reply_late_night_states_the_bus_wait():
+    facts = {"late_night": True, "best": {"kind": "walk", "arrive": "22:54"},
+             "walk_only": {"minutes": 15, "arrive": "22:54"},
+             "other_bus_options": [{"kind": "bus", "bus_in_min": 14, "arrive": "23:05"}]}
+    assert fallback.check_reply("Walk 15 min, arrive 22:54. Next Gold bus in 14 min, arrives 23:05.", facts)
+    assert fallback.check_reply("JUST WALK. Walk 15 min, arrive 22:54. Late-night wait times shown above.", facts) is None

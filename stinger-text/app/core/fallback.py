@@ -86,7 +86,7 @@ def template_reply(plan: TripPlan) -> str:
         buses = f["other_bus_options"]
         if buses:
             b = buses[0]
-            text += f" Next {b['route']} bus option arrives {b['arrive']}."
+            text += f" Next {b['route']} bus in {b['bus_in_min']} min, arrives {b['arrive']}."
         else:
             text += " No useful bus right now."
     return cap(text)
@@ -122,6 +122,11 @@ def _collect(obj, times: set[str], mins: set[int]) -> None:
         times.add(f"{(h % 12) or 12}:{m:02d}")
 
 
+def _clock_forms(hhmm_text: str) -> set[str]:
+    h, m = int(hhmm_text[:2]), int(hhmm_text[3:])
+    return {f"{h}:{m:02d}", f"{(h % 12) or 12}:{m:02d}"}
+
+
 def check_reply(reply: str, facts: dict) -> Optional[str]:
     """Return a cleaned reply, or None if it is empty, too long, or states numbers not in facts."""
     reply = FOOTER_RE.sub(" ", reply).strip()
@@ -135,6 +140,15 @@ def check_reply(reply: str, facts: dict) -> Optional[str]:
         return None
     for code, word in VERDICT_WORDS.items():
         if code != verdict and word in upper and word != VERDICT_WORDS.get(verdict):
+            return None
+    # The plan line must describe the best option, and at night the next bus wait must be stated.
+    best_arrive = (facts.get("best") or {}).get("arrive")
+    if best_arrive and _clock_forms(best_arrive).isdisjoint(f"{int(h)}:{m}" for h, m in _TIME_RE.findall(reply)):
+        return None
+    if facts.get("late_night"):
+        options = [facts.get("best") or {}, *facts.get("other_bus_options", [])]
+        waits = {o["bus_in_min"] for o in options if o.get("kind") == "bus" and "bus_in_min" in o}
+        if waits and waits.isdisjoint(int(n) for n in _MIN_RE.findall(reply)):
             return None
     times: set[str] = set()
     mins: set[int] = set()
