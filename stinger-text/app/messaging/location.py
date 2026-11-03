@@ -1,25 +1,48 @@
-"""Location pin parsing (owner: A, task A4). STUB from C1.
-
-extract_latlng(text) pulls coordinates out of a CL.loc.vcf body or a pasted
-maps.apple.com / maps.google.com link. Not a frozen contract; A may rename.
-"""
-from __future__ import annotations
-
 import re
-from typing import Optional
 
 from app.models import LatLng
 
-_APPLE_LL = re.compile(r"ll=(-?\d+\.\d+)\\?,(-?\d+\.\d+)")
-_GOOGLE_AT = re.compile(r"[@?&](?:q=|query=)?(-?\d+\.\d+),\s*(-?\d+\.\d+)")
+_N = r"(-?\d{1,3}(?:\.\d+)?)"
+_SEP = r"(?:\\?,|%2C)"
+_PATTERNS = [
+    re.compile(r"maps\.apple\.com[^\s]*?[?&]ll=" + _N + _SEP + _N, re.I),
+    re.compile(r"maps\.apple\.com[^\s]*?[?&]coordinate=" + _N + _SEP + _N, re.I),  # real share link (A1 capture)
+    re.compile(r"maps\.apple\.com[^\s]*?[?&]q=" + _N + _SEP + _N + r"(?![\d.])", re.I),
+    re.compile(r"google\.[a-z.]+/maps[^\s]*?@" + _N + _SEP + _N, re.I),
+    re.compile(r"google\.[a-z.]+/maps[^\s]*?[?&]q=" + _N + _SEP + _N + r"(?![\d.])", re.I),
+    re.compile(r"geo:" + _N + _SEP + _N, re.I),
+    re.compile(r"GEO:" + _N + r";" + _N, re.I),
+]
 
 
-def extract_latlng(text: str) -> Optional[LatLng]:
-    if not text:
-        return None
-    m = _APPLE_LL.search(text)
-    if m is None and ("google." in text or "goo.gl" in text):
-        m = _GOOGLE_AT.search(text)
-    if m is None:
-        return None
-    return LatLng(float(m.group(1)), float(m.group(2)))
+def parse_map_text(text: str) -> LatLng | None:
+    for p in _PATTERNS:
+        m = p.search(text or "")
+        if m:
+            lat, lng = float(m.group(1)), float(m.group(2))
+            if -90 <= lat <= 90 and -180 <= lng <= 180 and (lat, lng) != (0, 0):
+                return LatLng(lat, lng)
+    return None
+
+
+def parse_vcf(text: str) -> LatLng | None:
+    return parse_map_text(text)
+
+
+def _is_loc(a: dict) -> bool:
+    name = (a.get("transferName") or "").lower()
+    return name.endswith(".loc.vcf") or (a.get("mimeType") or "").lower() in ("text/vcard", "text/x-vlocation")
+
+
+async def extract(text: str | None, attachments: list[dict], client) -> LatLng | None:
+    for a in attachments or []:
+        if not _is_loc(a):
+            continue
+        try:
+            data = await client.download_attachment(a.get("guid"))
+            loc = parse_vcf(data.decode("utf-8", errors="replace"))
+        except Exception:
+            continue
+        if loc:
+            return loc
+    return parse_map_text(text) if text else None

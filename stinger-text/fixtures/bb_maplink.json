@@ -1,0 +1,83 @@
+{
+  "type": "new-message",
+  "data": {
+    "originalROWID": 223458,
+    "guid": "A211F35E-C9B4-4061-B247-D1D65B41CFC2",
+    "text": "https://maps.apple.com/place?coordinate=33.77720,-84.39560&name=Parked%20Car&map=explore",
+    "attributedBody": null,
+    "handle": {
+      "originalROWID": 16,
+      "address": "+15550001111",
+      "service": "iMessage",
+      "uncanonicalizedId": "+15550001111",
+      "country": "US"
+    },
+    "handleId": 16,
+    "otherHandle": 0,
+    "attachments": [
+      {
+        "originalROWID": 5115,
+        "guid": "FE9A2400-8DBA-4619-8690-D1CCF1B6AC35",
+        "uti": "dyn.age81a5dzq7y066dbtf0g82peqf4hk2pdrb00n5xy",
+        "mimeType": null,
+        "transferName": "9ECCD177-8BA0-44B6-960B-129FF4C7B473.pluginPayloadAttachment",
+        "totalBytes": 286236,
+        "height": 0,
+        "width": 0
+      },
+      {
+        "originalROWID": 5116,
+        "guid": "FCE22971-2DB0-431E-A19B-BBB1BA824784",
+        "uti": "dyn.age81a5dzq7y066dbtf0g82peqf4hk2pdrb00n5xy",
+        "mimeType": null,
+        "transferName": "9943C438-A8D8-4515-B903-0131FBF8DA2F.pluginPayloadAttachment",
+        "totalBytes": 11973,
+        "height": 0,
+        "width": 0
+      },
+      {
+        "originalROWID": 5117,
+        "guid": "53223E34-A29D-45FA-9107-538076CBD254",
+        "uti": "dyn.age81a5dzq7y066dbtf0g82peqf4hk2pdrb00n5xy",
+        "mimeType": null,
+        "transferName": "6C2CD5B2-D61C-4B5B-A37E-ED85EA29E21D.pluginPayloadAttachment",
+        "totalBytes": 228710,
+        "height": 0,
+        "width": 0
+      }
+    ],
+    "subject": null,
+    "error": 0,
+    "dateCreated": 1793669862898,
+    "dateRead": null,
+    "dateDelivered": null,
+    "isDelivered": true,
+    "isFromMe": false,
+    "hasDdResults": true,
+    "isArchived": false,
+    "itemType": 0,
+    "groupTitle": null,
+    "groupActionType": 0,
+    "balloonBundleId": "com.apple.messages.URLBalloonProvider",
+    "associatedMessageGuid": null,
+    "associatedMessageType": null,
+    "expressiveSendStyleId": null,
+    "threadOriginatorGuid": null,
+    "hasPayloadData": true,
+    "chats": [
+      {
+        "originalROWID": 9,
+        "guid": "any;-;+15550001111",
+        "style": 45,
+        "chatIdentifier": "+15550001111",
+        "isArchived": false,
+        "displayName": "Test User"
+      }
+    ],
+    "messageSummaryInfo": null,
+    "payloadData": null,
+    "dateEdited": null,
+    "dateRetracted": null,
+    "partCount": 1
+  }
+}

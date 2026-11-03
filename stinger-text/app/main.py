@@ -16,7 +16,7 @@ from fastapi import FastAPI  # noqa: E402
 
 from app.api import router as data_router  # noqa: E402
 from app.data import clock, sources  # noqa: E402
-from app.messaging import webhook  # noqa: E402
+from app.messaging import bluebubbles, webhook  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
@@ -29,6 +29,7 @@ async def lifespan(_app: FastAPI):
     sources.ensure_poller()
     yield
     sources.stop_poller()
+    await bluebubbles.aclose()
 
 
 app = FastAPI(title="StingerText", lifespan=lifespan)

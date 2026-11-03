@@ -1,0 +1,52 @@
+{
+  "type": "new-message",
+  "data": {
+    "originalROWID": 223457,
+    "guid": "AA9F06F5-E8A0-48BE-AEAF-AB42E5ED98A2",
+    "text": "Hello bot",
+    "attributedBody": null,
+    "handle": {
+      "originalROWID": 16,
+      "address": "+15550001111",
+      "service": "iMessage",
+      "uncanonicalizedId": "+15550001111",
+      "country": "US"
+    },
+    "handleId": 16,
+    "otherHandle": 0,
+    "attachments": [],
+    "subject": null,
+    "error": 0,
+    "dateCreated": 1793669849160,
+    "dateRead": null,
+    "dateDelivered": null,
+    "isDelivered": true,
+    "isFromMe": false,
+    "hasDdResults": false,
+    "isArchived": false,
+    "itemType": 0,
+    "groupTitle": null,
+    "groupActionType": 0,
+    "balloonBundleId": null,
+    "associatedMessageGuid": null,
+    "associatedMessageType": null,
+    "expressiveSendStyleId": null,
+    "threadOriginatorGuid": null,
+    "hasPayloadData": false,
+    "chats": [
+      {
+        "originalROWID": 9,
+        "guid": "any;-;+15550001111",
+        "style": 45,
+        "chatIdentifier": "+15550001111",
+        "isArchived": false,
+        "displayName": "Test User"
+      }
+    ],
+    "messageSummaryInfo": null,
+    "payloadData": null,
+    "dateEdited": null,
+    "dateRetracted": null,
+    "partCount": 1
+  }
+}
