@@ -39,7 +39,7 @@ log = logging.getLogger(__name__)
 ACK_TEXT = "Checking buses..."
 ERROR_TEXT = "Something went wrong on my end. Try again in a moment."
 GOT_LOCATION_TEXT = "Got your location. Where to?"
-ASK_PIN_TEXT = ("Drop your location pin (tap your name > Send My Current Location) "
+ASK_PIN_TEXT = ("Share a pin from Apple Maps (Maps > Share > Messages) "
                 "or tell me where you are.")
 DECLINE_TEXT = ("I can only help with Georgia Tech Stinger bus trips. "
                 "Try: \"Can I make it to West Village by 12:15?\"")

@@ -18,7 +18,7 @@ From the admin phone (a handle listed in `ADMIN_HANDLES`):
 ```
 
 `/status` should show `REPLAY`, a clock reading Tue 3 Mar 12:0x, and `last error: none`.
-Have the judge text the bot once and drop a pin (tap your name > Send My Current Location),
+Have the judge text the bot once and share a pin from Apple Maps (Maps > Share > Messages),
 so each scene starts with a pin stored.
 
 Every answer arrives as two texts: "Checking buses..." within 1 s, then the answer within
