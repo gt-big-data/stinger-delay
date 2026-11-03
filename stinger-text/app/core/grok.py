@@ -173,7 +173,9 @@ def validate_args(args: dict) -> Intent:
         raise GrokError(f"Round 1: invalid destination {dest!r}")
     if origin not in ids | {"PIN", "UNKNOWN"}:
         raise GrokError(f"Round 1: invalid origin {origin!r}")
-    if deadline in ("", "null"):
+    # Grok fills the required field with "00:00" when the user gave no time; nobody
+    # asks to arrive by midnight sharp, so that exact value means "no deadline".
+    if deadline in ("", "null", "00:00"):
         deadline = None
     if deadline is not None:
         if not isinstance(deadline, str) or not _HHMM.match(deadline) or int(deadline[:2]) > 23:

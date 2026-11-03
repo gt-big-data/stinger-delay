@@ -34,3 +34,11 @@ def test_check_reply_allows_12h_and_rejects_unknown_numbers():
     assert fallback.check_reply("Bus in 5 min, arrive 1:05.", facts) is None
     assert fallback.check_reply("Arrive 13:06.", facts) is None
     assert fallback.check_reply("ok [LIVE]", facts) == "ok"
+
+
+def test_check_reply_verdict_must_match_plan():
+    facts = {"verdict": "WONT_MAKE_IT", "best": {"arrive": "12:20", "bus_in_min": 9},
+             "walk_only": {"minutes": 16, "arrive": "12:16"}}
+    assert fallback.check_reply("WON'T MAKE IT. Red bus in 9 min, arrive 12:20. Walking takes 16 min.", facts)
+    assert fallback.check_reply("YOU'LL MAKE IT. Red bus in 9 min, arrive 12:20.", facts) is None
+    assert fallback.check_reply("WONT_MAKE_IT. Red bus in 9 min, arrive 12:20.", facts) is None

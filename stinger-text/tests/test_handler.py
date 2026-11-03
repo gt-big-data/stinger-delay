@@ -208,3 +208,13 @@ def test_no_grok_end_to_end_local_parser():
     out = handler.handle(msg("I'm at North Ave Apts, can I make my 9:30 in Klaus?"))
     assert "Klaus Advanced Computing Building" in out[0]
     assert re.search(r"\[REPLAY Tue 3 Mar 09:2\d\]$", out[0])
+
+
+def test_deadline_rolls_to_tomorrow_only_when_long_past():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    now = datetime(2026, 3, 3, 22, 0, tzinfo=ZoneInfo("America/New_York"))
+    assert handler._deadline_dt("09:30", now).day == 4          # asked at 22:00: tomorrow morning
+    assert handler._deadline_dt("21:30", now).day == 3          # just missed: stays today
+    assert handler._deadline_dt("23:00", now).day == 3
+    assert handler._deadline_dt(None, now) is None

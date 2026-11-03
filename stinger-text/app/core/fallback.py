@@ -127,6 +127,15 @@ def check_reply(reply: str, facts: dict) -> Optional[str]:
     reply = FOOTER_RE.sub(" ", reply).strip()
     if not reply or len(reply) > prompts.MAX_REPLY_CHARS:
         return None
+    upper = reply.upper()
+    verdict = facts.get("verdict")
+    # The verdict word must match the plan: a reply that says "YOU'LL MAKE IT" for a
+    # WONT_MAKE_IT plan (or prints a raw code) is replaced by the template.
+    if re.search(r"\b(?:MAKE_IT|WONT_MAKE_IT|NO_DEADLINE)\b", upper):
+        return None
+    for code, word in VERDICT_WORDS.items():
+        if code != verdict and word in upper and word != VERDICT_WORDS.get(verdict):
+            return None
     times: set[str] = set()
     mins: set[int] = set()
     _collect(facts, times, mins)
