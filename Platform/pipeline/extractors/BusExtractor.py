@@ -78,7 +78,7 @@ class BusExtractor(BaseExtractor):
                 "snapshot_time": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
 
-            self.get_capacity_info(bus_data)
+        self.get_capacity_info(bus_data)
         
         return list(bus_data.values())
     

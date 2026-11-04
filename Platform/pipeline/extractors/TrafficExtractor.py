@@ -19,7 +19,7 @@ class TrafficExtractor(BaseExtractor):
         self.params = {
             "in": f"circle:{self.circle_center};r=1900",
             "locationReferencing": "shape",
-            "apiKey": {self.api_key}
+            "apiKey": self.api_key
         }
 
     def extract(self) -> pd.DataFrame:
