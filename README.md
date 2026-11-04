@@ -32,6 +32,10 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Phil Abraham https://www.linkedin.com/in/pjsabraham/
 - Grace Yu https://www.linkedin.com/in/gracemyu
 - Eliana Wang https://www.linkedin.com/in/wangeliana/
+- Noah Xi https://www.linkedin.com/in/noah-xi
+- Priscila Gerhardt https://www.linkedin.com/in/priscilagerhardt/
+- Daphne Huang https://www.linkedin.com/in/dhuang567
+
 
 ### Analysis
 
@@ -50,6 +54,7 @@ The project is divided into 3 separate subteams, each focused on a core componen
 - Samanyu Vemuri https://www.linkedin.com/in/samanyuvemuri/
 - Tommy Nguyen https://www.linkedin.com/in/tommy-ngn/
 - Alina Lin https://www.linkedin.com/in/alinal10/
+- Dan Mano https://www.linkedin.com/in/danmano
 
 ### Data-Viz
 
